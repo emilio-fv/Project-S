@@ -88,7 +88,7 @@ const tableHeaders = [
 	"Team Members"
 ]
 
-// CREATE SAMPLE DATA
+// Sample Table Data
 function createProject(name, description, role, team) {
     return { name, description, role, team }
 }
@@ -140,7 +140,7 @@ const ProjectsTable = (props) => {
                             <TableCell>
                                 {row.name}
                             </TableCell>
-                                {row.description}
+                                {row.description.substring(0,75)}...
                             <TableCell>
                             </TableCell>
                                 {row.role}
