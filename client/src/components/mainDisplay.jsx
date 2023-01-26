@@ -8,9 +8,9 @@ const MainDisplay = (props) => {
 
     return (
         <>            
-            <Box sx={{ flex: 3, padding: '50px', border: '2px solid red'}}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant='h4' component="h2">{ props.displayTitle }</Typography>
+            <Box sx={{ maxHeight: '60%', flex: 3, padding: '25px', border: '2px solid red' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                    <Typography variant='h5' component="h2">{ props.displayTitle }</Typography>
                     <StyledButton text={ props.buttonText } />
                 </Box>
                 {

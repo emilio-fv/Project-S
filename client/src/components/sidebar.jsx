@@ -9,7 +9,7 @@ import LinkComponent from '@mui/material/Link';
 const Sidebar = (props) => {
     return (
         <>
-            <Box sx={{ flex: 1, border: '2px solid red', display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center', justifyContent: 'space-between', paddingY: '50px' }}>
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center', justifyContent: 'space-between', paddingY: '25px' }}>
                 <Box sx={{  display: 'flex', flexDirection: 'column', textAlign: 'center', alignItems: 'center' }}>
                     <Box 
                         component="img"
