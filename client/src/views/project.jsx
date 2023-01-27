@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import MainDisplay from '../components/MainDisplay';
 import Box from '@mui/material/Box';
-import TicketsDisplay from '../components/TicketsDisplay';
+import TicketDisplay from '../components/TicketDisplay';
 import ProjectOverview from '../components/ProjectOverview';
 
 const Project = (props) => {
@@ -13,7 +13,7 @@ const Project = (props) => {
             <Sidebar />
             <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
                 <MainDisplay displayTitle={"Sample Project"} buttonText={"Add Ticket"} displayTable={<ProjectOverview />}/>
-                <TicketsDisplay />
+                <TicketDisplay />
             </Box>
             
         </Box>
