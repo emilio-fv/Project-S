@@ -16,7 +16,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { useTheme } from '@emotion/react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import sampleProjects from '../data/projectData'
+import sampleProjects from '../../data/projectData'
 import { Typography } from '@mui/material';
 
 function TablePaginationActions(props) {
@@ -87,7 +87,7 @@ const tableHeaders = [
 	"Team Members"
 ]
 
-export default function ProjectsTable() {
+export default function ProjectsDisplay() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 

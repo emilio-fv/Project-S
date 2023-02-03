@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 const TicketDisplay = (props) => {
     return (
-        <Box sx={{ maxHeight: '40%', flex: 2, padding: '25px', display: 'flex' }}>
+        <Box sx={{ maxHeight: '40%', flex: 2, display: 'flex' }}>
             <Box sx={{ flex: 2 }}>
                 <p>TODO: Ticket type</p>
                 <Typography variant='h6' component='h2'>Ticket #TODO: Summary</Typography>

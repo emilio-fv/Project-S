@@ -2,9 +2,9 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const ProjectOverview = (props) => {
+const ProjectDetails = (props) => {
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ height: '90%', width: '100%', display: 'flex' }}>
             <Box sx={{ flex: 1, border: '2px solid red' }}>
                 <Box>
                     <Typography variant='h6' component='h2'>Description</Typography>
@@ -23,4 +23,4 @@ const ProjectOverview = (props) => {
     )
 }
 
-export default ProjectOverview;
+export default ProjectDetails;
