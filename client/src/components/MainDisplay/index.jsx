@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import StyledButton from './StyledButton';
+import StyledButton from '../Button';
 
 const MainDisplay = (props) => {
     return (
@@ -11,7 +11,7 @@ const MainDisplay = (props) => {
                 <StyledButton clickAction={ props.clickAction } text={ props.buttonText } />
             </Box>
             {
-                props.displayTable
+                props.display
             }
         </Box>
     )

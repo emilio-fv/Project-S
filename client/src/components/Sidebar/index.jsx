@@ -1,8 +1,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import StyledButton from './StyledButton';
-import AvatarImg from '../imgs/avatar_sample.png';
+import StyledButton from '../Button/index';
+import AvatarImg from '../../imgs/avatar_sample.png';
 import { Link } from 'react-router-dom';
 import LinkComponent from '@mui/material/Link';
 

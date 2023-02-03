@@ -6,7 +6,7 @@ import TicketDisplay from '../components/TicketDisplay';
 import ProjectOverview from '../components/ProjectOverview';
 
 const Project = (props) => {
-    
+  
   return(
     <>
         <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
@@ -20,5 +20,5 @@ const Project = (props) => {
     </>
   )
 }
-export default Project ;
 
+export default Project ;

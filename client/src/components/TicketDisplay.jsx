@@ -22,7 +22,7 @@ const TicketDisplay = (props) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, border: '2px solid red' }}>
                 <p>TODO: comments/history box</p>
             </Box>
         </Box>
