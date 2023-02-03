@@ -1,8 +1,26 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import TabPanel from '../TabPanel';
+import CommentsLog from '../CommentsLog';
+import HistoryLog from '../HistoryLog';
+import { useState } from 'react';
 
+function allyProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+      };
+}
 const TicketDisplay = (props) => {
+    const [value, setValue] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    }
+
     return (
         <Box sx={{ maxHeight: '40%', flex: 2, display: 'flex' }}>
             <Box sx={{ flex: 2 }}>
@@ -22,8 +40,19 @@ const TicketDisplay = (props) => {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ flex: 1, border: '2px solid red' }}>
-                <p>TODO: comments/history box</p>
+            <Box sx={{ width: '100%', flex: 1 }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value} onChange={handleChange} aria-label="Comments & History Tabs">
+                        <Tab label="Comments" {...allyProps(0)} />
+                        <Tab label="History" {...allyProps(1)} />
+                    </Tabs>
+                </Box>
+                <TabPanel value={value} index={0}>
+                    <CommentsLog />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <HistoryLog />
+                </TabPanel>
             </Box>
         </Box>
     )

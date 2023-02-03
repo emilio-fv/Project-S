@@ -7,6 +7,10 @@ import ProjectDetails from '../components/ProjectDetails';
 import SecondaryDisplay from '../components/SecondaryDisplay';
 
 const Project = (props) => {
+  const { projectId } = props;
+
+  console.log(projectId);
+  // TODO: Make API call to get specific project's data
   
   return(
     <>
