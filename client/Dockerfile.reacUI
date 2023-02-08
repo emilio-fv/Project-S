@@ -1,7 +1,0 @@
-# FROM node:16
-# WORKDIR /project-s/client
-# COPY ./package.json /project-s/client/package.json
-# COPY ./public /project-s/client/public
-# COPY ./src /project-s/client/src
-
-# TODO: create dockerfile

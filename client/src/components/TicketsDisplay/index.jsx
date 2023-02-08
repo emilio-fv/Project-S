@@ -1,10 +1,9 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import PieChart from './PieChart';
+import PieChart from '../PieChart';
 
 // Sample Cart Data
-const typeChartData ={
+const typeChartData = {
     labels: ['Feature', 'Bug', 'Task', 'Improvement', 'Test'],
     datasets: [
         {
@@ -50,7 +49,7 @@ const priorityChartData = {
     ]
 }
 
-const statusChartData ={
+const statusChartData = {
     labels: ['Incomplete', 'In Progress', 'Completed'],
     datasets: [
         {
@@ -72,19 +71,14 @@ const statusChartData ={
     ]
 }
 
-const TicketOverviewDisplay = (props) => {
-    return (
-        <>
-            <Box sx={{ maxHeight: '40%', flex: 2, padding: '25px' }}>
-                <Typography variant='h5' component="h2">Tickets</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                    <PieChart chartName={"By Type"} data={typeChartData}/>
-                    <PieChart chartName={"By Priority"} data={priorityChartData}/>
-                    <PieChart chartName={"By Status"} data={statusChartData}/>
-                </Box>
-            </Box>
-        </>
-    )
+const TicketsDisplay = (props) => {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <PieChart chartName={"By Type"} data={typeChartData}/>
+        <PieChart chartName={"By Priority"} data={priorityChartData}/>
+        <PieChart chartName={"By Status"} data={statusChartData}/>
+    </Box>
+  )
 }
 
-export default TicketOverviewDisplay;
+export default TicketsDisplay;

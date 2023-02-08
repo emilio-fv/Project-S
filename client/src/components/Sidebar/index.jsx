@@ -1,8 +1,8 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import StyledButton from './StyledButton';
-import AvatarImg from '../imgs/avatar_sample.png';
+import StyledButton from '../Button/index';
+import AvatarImg from '../../imgs/avatar_sample.png';
 import { Link } from 'react-router-dom';
 import LinkComponent from '@mui/material/Link';
 
@@ -26,7 +26,7 @@ const Sidebar = (props) => {
                     />
                     <Typography variant="h5" component="h2" sx={{ marginBottom: '10px' }}>Emilio Vazquez</Typography>
                     <Typography variant="subtitle1" component="h3" sx={{ marginBottom: '25px' }}>Admin / Developer</Typography>
-                    <LinkComponent href='#' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Dashboard</LinkComponent>
+                    <LinkComponent href='/' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Dashboard</LinkComponent>
                     <LinkComponent href='#' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Tickets</LinkComponent>
                     <LinkComponent href='#' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Admin</LinkComponent>
                 </Box>
