@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 
 const StyledButton = (props) => {
     return (
-        <Button onClick={props.clickAction} variant='contained'>{ props.text }</Button>
+        <Button style={props.style} onClick={props.clickAction} variant='contained'>{ props.text }</Button>
     )
 }
 

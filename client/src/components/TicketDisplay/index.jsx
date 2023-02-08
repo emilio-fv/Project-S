@@ -29,18 +29,18 @@ const TicketDisplay = (props) => {
                 <Typography variant='h6' component='h2'>Description</Typography>
                 <Typography>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia culpa vero quaerat beatae sint qui harum porro soluta quos repudiandae, obcaecati expedita, ullam tempora aliquam deleniti, eaque assumenda consequuntur reiciendis!</Typography>
                 <Box sx={{ display: 'flex' }}>
-                    <Box sx={{ flex: 1, border: '2px solid red' }}>
+                    <Box sx={{ flex: 1 }}>
                         <Typography>Assigned Team Member</Typography>
                         <Typography>TODO: add team member</Typography>
                     </Box>
-                    <Box sx={{ flex: 1, border: '2px solid red' }}>
+                    <Box sx={{ flex: 1 }}>
                         <Typography>Status: TODO</Typography>
                         <Typography>Priority: TODO</Typography>
                         <Typography>Due In: TODO</Typography>
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{ width: '100%', flex: 1 }}>
+            <Box sx={{ width: '350px', height: '100%', flex: 1 }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="Comments & History Tabs">
                         <Tab label="Comments" {...allyProps(0)} />

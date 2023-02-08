@@ -6,7 +6,7 @@ import TicketsTable from '../TicketsTable';
 const ProjectDetails = (props) => {
     return (
         <Box sx={{ height: '90%', width: '100%', display: 'flex' }}>
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px', border: '2px solid red' }}>
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <Box sx={{ flex: 2 }}>
                     <Typography variant='h6' component='h2'>Description</Typography>
                     <Typography>TODO: Description</Typography>
@@ -19,7 +19,7 @@ const ProjectDetails = (props) => {
                     }
                 </Box>
             </Box>
-            <Box sx={{ flex: 2, border: '2px solid red' }}>
+            <Box sx={{ flex: 2 }}>
                 <Typography variant='h6' component='h2'>Tickets</Typography>
                 <TicketsTable />
             </Box>
