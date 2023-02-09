@@ -27,7 +27,7 @@ const Sidebar = (props) => {
                     <Typography variant="h5" component="h2" sx={{ marginBottom: '10px' }}>Emilio Vazquez</Typography>
                     <Typography variant="subtitle1" component="h3" sx={{ marginBottom: '25px' }}>Admin / Developer</Typography>
                     <LinkComponent href='/' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Dashboard</LinkComponent>
-                    <LinkComponent href='#' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Tickets</LinkComponent>
+                    <LinkComponent href='/tickets' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Tickets</LinkComponent>
                     <LinkComponent href='#' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Admin</LinkComponent>
                 </Box>
                 <StyledButton text="Logout" />
