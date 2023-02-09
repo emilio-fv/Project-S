@@ -57,7 +57,7 @@ const modalStyle = {
     p: 4,
 };
 
-const StyledModal = (props) => {
+const NewProjectForm = (props) => {
     const theme = useTheme();
 
     return (
@@ -102,4 +102,4 @@ const StyledModal = (props) => {
     )
 }
 
-export default StyledModal;
+export default NewProjectForm;

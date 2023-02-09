@@ -5,7 +5,7 @@ import SecondaryDisplay from '../components/SecondaryDisplay';
 import TicketsOverview from '../components/TicketsOverview';
 import ProjectsTable from '../components/ProjectsTable';
 import Box from '@mui/material/Box';
-import StyledModal from '../components/Modal';
+import StyledModal from '../components/NewProjectForm';
 import { useState } from 'react';
 
 const Dashboard = (props) => {
@@ -28,17 +28,15 @@ const Dashboard = (props) => {
         handleClose();
     }
 
-    return(
-        <>
-            <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
-                <Sidebar />
-                <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
-                    <MainDisplay displayTitle={"Projects"} buttonText={"Add Project"} clickAction={handleOpen} display={<ProjectsTable />} />
-                    <SecondaryDisplay displayTitle={"Tickets"} display={<TicketsOverview />} />
-                </Box>
+    return (
+        <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
+            <Sidebar />
+            <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
+                <MainDisplay displayTitle={"Projects"} buttonText={"Add Project"} clickAction={handleOpen} display={<ProjectsTable />} />
+                <SecondaryDisplay displayTitle={"Tickets"} display={<TicketsOverview />} />
             </Box>
             <StyledModal open={open} handleClose={handleClose} personName={personName} handleChange={handleChange} handleSubmit={handleSubmit} />
-        </>
+        </Box>
     )
 }
 

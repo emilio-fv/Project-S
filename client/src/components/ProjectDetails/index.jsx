@@ -14,9 +14,6 @@ const ProjectDetails = (props) => {
                 <Box sx={{ flex: 3 }}>
                     <Typography variant='h6' component='h2'>Team Members</Typography>
                     <Typography component='p'>TODO: Team Members</Typography>
-                    {
-                        // TODO: Iterate over array of team members
-                    }
                 </Box>
             </Box>
             <Box sx={{ flex: 2 }}>
