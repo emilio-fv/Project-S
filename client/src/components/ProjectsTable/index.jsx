@@ -10,7 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TablePaginationActions from '../TablePaginationActions';
 import { useState } from 'react';
 import sampleProjects from '../../data/projectData'
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 const tableHeaders = [
 	"Project Name",
@@ -19,7 +19,7 @@ const tableHeaders = [
 	"Team Members"
 ]
 
-const ProjectsDisplay = (props) => {
+const ProjectsTable = (props) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -50,8 +50,8 @@ const ProjectsDisplay = (props) => {
                   {(rowsPerPage > 0
                       ? sampleProjects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       : sampleProjects
-                  ).map((row) => (
-                      <TableRow key={row.name}>
+                  ).map((row, key) => (
+                      <TableRow key={key}>
                           <TableCell>
                               {row.name}
                           </TableCell>
@@ -74,7 +74,6 @@ const ProjectsDisplay = (props) => {
                     </TableRow>
                   )}
                 </TableBody>
-
             </Table>
         </TableContainer>
         <TablePagination 
@@ -98,4 +97,4 @@ const ProjectsDisplay = (props) => {
     )
 }
 
-export default ProjectsDisplay;
+export default ProjectsTable;

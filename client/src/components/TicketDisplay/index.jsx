@@ -11,9 +11,10 @@ import { useState } from 'react';
 function allyProps(index) {
     return {
         id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-      };
-}
+        'aria-controls': `simple-tabpanel-${index}`
+      }
+};
+
 const TicketDisplay = (props) => {
     const [value, setValue] = useState(0);
 

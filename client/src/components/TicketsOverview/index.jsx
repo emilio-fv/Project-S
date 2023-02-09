@@ -71,7 +71,7 @@ const statusChartData = {
     ]
 }
 
-const TicketsDisplay = (props) => {
+const TicketsOverview = (props) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
         <PieChart chartName={"By Type"} data={typeChartData}/>
@@ -81,4 +81,4 @@ const TicketsDisplay = (props) => {
   )
 }
 
-export default TicketsDisplay;
+export default TicketsOverview;
