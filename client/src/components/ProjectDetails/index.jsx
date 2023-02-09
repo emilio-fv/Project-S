@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import TicketsTable from '../TicketsTable';
+import ProjectTicketsTable from '../ProjectTicketsTable';
 
 const ProjectDetails = (props) => {
     return (
@@ -21,7 +21,7 @@ const ProjectDetails = (props) => {
             </Box>
             <Box sx={{ flex: 2 }}>
                 <Typography variant='h6' component='h2'>Tickets</Typography>
-                <TicketsTable />
+                <ProjectTicketsTable />
             </Box>
         </Box>
     )

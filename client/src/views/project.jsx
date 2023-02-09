@@ -12,17 +12,15 @@ const Project = (props) => {
   console.log(projectId);
   // TODO: Make API call to get specific project's data
   
-  return(
-    <>
-        <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
-            <Sidebar />
-            <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
-                <MainDisplay displayTitle={"Sample Project"} buttonText={"Add Ticket"} display={<ProjectDetails />}/>
-                <SecondaryDisplay displayTitle={""} display={<TicketDisplay />}/>
-            </Box>
-            
-        </Box>
-    </>
+  return (
+    <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
+      <Sidebar />
+      <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
+        <MainDisplay displayTitle={"Sample Project"} buttonText={"Add Ticket"} display={<ProjectDetails />}/>
+        <SecondaryDisplay displayTitle={""} display={<TicketDisplay />}/>
+      </Box>
+        
+    </Box>
   )
 }
 
