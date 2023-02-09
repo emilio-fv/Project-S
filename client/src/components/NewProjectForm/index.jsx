@@ -34,9 +34,9 @@ const sampleNames = [
     'Bradley Wilkerson',
     'Virginia Andrews',
     'Kelly Snyder',
-  ];
+];
 
-  function getStyles(name, personName, theme) {
+function getStyles(name, personName, theme) {
     return {
         fontWeight:
         personName.indexOf(name) === -1
