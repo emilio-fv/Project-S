@@ -8,23 +8,9 @@ import SecondaryDisplay from '../components/SecondaryDisplay';
 import NewTicketForm from '../components/NewTicketForm';
 
 const Project = (props) => {
-  const [personName, setPersonName] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      typeof value === 'string' ? value.split(',') : value
-    );
-  }
-  const handleSubmit = (event) => {
-    console.log("TODO");
-    handleClose();
-  }
 
   return (
     <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
@@ -33,7 +19,7 @@ const Project = (props) => {
         <MainDisplay displayTitle={"Sample Project"} buttonText={"New Ticket"} clickAction={handleOpen} display={<ProjectDetails />}/>
         <SecondaryDisplay displayTitle={""} display={<TicketDisplay />}/>
       </Box>
-      <NewTicketForm open={open} handleClose={handleClose} personName={personName} handleChange={handleChange} handleSubmit={handleSubmit} />
+      <NewTicketForm open={open} handleClose={handleClose} />
     </Box>
   )
 }

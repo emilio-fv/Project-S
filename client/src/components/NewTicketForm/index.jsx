@@ -7,44 +7,25 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import StyledButton from '../Button';
-import { useTheme } from '@mui/material/styles';
-import SelectInput from '../SelectInput';
+import sampleProjects from '../../data/projectData';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
+function createName(id, name) {
+  return { id, name }
+}
 // Sample Team Members Data
 const sampleNames = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-  ];
-
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight:
-        personName.indexOf(name) === -1
-            ? theme.typography.fontWeightRegular
-            : theme.typography.fontWeightMedium,
-    };
-}
+    createName(1, 'Oliver Hansen'),
+    createName(2, 'Kelly Snyder'),
+    createName(3, 'Van Henry'),
+    createName(4, 'April Tucker'),
+    createName(5, 'Ralph Hubbard'),
+    createName(6, 'Omar Alexander'),
+    createName(7, 'Carlos Abbott')
+];
 
 const modalStyle = {
     position: 'absolute',
@@ -66,12 +47,42 @@ const ticketTypes = [
   { text: 'Test', value: 'Test'},
 ]
 
+const priorityLevels = [
+  { text: 'Low', value: 'Low'},
+  { text: 'Medium', value: 'Medium'},
+  { text: 'High', value: 'High'}
+]
+
 const NewTicketForm = (props) => {
-  const theme = useTheme();
-  const [ticketType, setTicketType] = useState('');
-  
+  const [ticketData, setTicketData] = useState({
+    type: '',
+    projectId: '',
+    summary: '',
+    description: '',
+    priority: '',
+    dueDate: null,
+    assignedUserId: ''
+  })
+
   const handleChange = (event) => {
-    // if (event.target.id === )
+    setTicketData({
+      ...ticketData,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const handleSubmit = (event) => {
+    console.log(ticketData);
+    props.handleClose();
+    setTicketData({
+      type: '',
+      projectId: '',
+      summary: '',
+      description: '',
+      priority: '',
+      dueDate: null,
+      assignedUserId: ''
+    })
   }
 
   return (
@@ -82,38 +93,88 @@ const NewTicketForm = (props) => {
       >
           <Box sx={modalStyle}>
               <Typography id="modal-modal-title" variant="h6" component="h2" textAlign="center" sx={{ marginBottom: '10px' }}>
-                  Add Ticket
+                Add Ticket
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '10px' }}>
-                <SelectInput inputLabel={"ticket-type"} label={"Ticket Type"} handleChange={handleChange} value={ticketType} menuItems={ticketTypes}/>
-                <Typography>TODO: Project</Typography>
-                <TextField id="" label="Summary" variant="outlined" />
-                <TextField id="" label="Description" variant="outlined" multiline/>
-                <Typography>TODO: Priority Level</Typography>
-                <Typography>TODO: Due Date</Typography>
-                  <FormControl sx={{ m: 1, width: 300 }}>
-                      <InputLabel id="demo-multiple-name-label">Assigned Team Members</InputLabel>
-                      <Select
-                          labelId="demo-multiple-name-label"
-                          id="demo-multiple-name"
-                          multiple
-                          value={props.personName}
-                          onChange={props.handleChange}
-                          input={<OutlinedInput label="Name" />}
-                          MenuProps={MenuProps}
-                          >
-                          {sampleNames.map((name) => (
-                              <MenuItem
-                              key={name}
-                              value={name}
-                              style={getStyles(name, props.personName, theme)}
-                              >
-                              {name}
-                              </MenuItem>
-                          ))}
-                      </Select>
-                  </FormControl>
-                  <StyledButton clickAction={props.handleSubmit} text={"Add Ticket"}/>
+                {/* Ticket Type ✅*/}
+                <FormControl fullWidth> 
+                  <InputLabel id="select-ticket-type">Ticket Type</InputLabel>
+                  <Select
+                    name="type"
+                    labelId="select-ticket-type"
+                    id="select-ticket"
+                    value={ticketData.type}
+                    label="Ticket Type"
+                    onChange={event => handleChange(event)}
+                  >
+                    {ticketTypes.map((item,key) => (
+                      <MenuItem key={key} value={item.value}>{item.text}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* Project ✅*/}
+                <FormControl fullWidth>
+                  <InputLabel id='select-project'>Project</InputLabel>
+                  <Select
+                    name="projectId"
+                    labelId="select-project"
+                    id="project-select"
+                    value={ticketData.projectId}
+                    label="Project"
+                    onChange={event => handleChange(event)}
+                  >
+                    {sampleProjects.map((item, key) => (
+                      <MenuItem key={key} value={item.id}>{item.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* Summary ✅*/}
+                <TextField name="summary" label="Summary" variant="outlined" onChange={event => handleChange(event)} fullWidth/>
+                {/* Description ✅*/}
+                <TextField name="description" label="Description" variant="outlined" multiline onChange={event => handleChange(event)} fullWidth/>
+                {/* Priority Level ✅*/}
+                <FormControl fullWidth>
+                  <InputLabel id='select-priority-level'>Priority</InputLabel>
+                  <Select
+                    name="priority"
+                    labelId="select-priority-level"
+                    id="priority-level"
+                    value={ticketData.priority}
+                    label="Priority"
+                    onChange={event => handleChange(event)} 
+                  >
+                    {priorityLevels.map((item, key) => (
+                      <MenuItem key={key} value={item.value}>{item.text}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* Due Date ✅*/}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker 
+                    label="Due Date"
+                    name="dueDate"
+                    value={ticketData.dueDate}
+                    onChange={(newValue) => handleChange({ target: { name: "dueDate", value: newValue} })}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+                {/* Assigned Team Member */}
+                <FormControl fullWidth>
+                  <InputLabel id='select-team-member'>Assigned Team Member</InputLabel>
+                  <Select
+                    name="assignedUserId"
+                    labelId='select-team-member'
+                    id='assigned-team-member'
+                    value={ticketData.assignedUserId}
+                    label="Assigned Team Member"
+                    onChange={event => handleChange(event)}
+                  >
+                    {sampleNames.map((item, key) => (
+                      <MenuItem key={key} value={item.id}>{item.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <StyledButton clickAction={event => handleSubmit(event)} text={"Add Ticket"}/>
               </Box>
           </Box>
       </Modal>
