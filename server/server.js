@@ -18,9 +18,14 @@ const app = express();
 
 // Middleware
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cors({ 
+    credentials: true, 
+    origin: 'http://localhost:3000' 
+}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ 
+    extended: true 
+}));
 app.use('/api/users', userRouter);
 
 // Initialize Server
