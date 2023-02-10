@@ -53,7 +53,7 @@ userSchema.pre('save', function(next) {
     })
 });
 
-// Generate User Model
+// Create User Model
 const User = mongoose.model("User", userSchema);
 
 // Exports
