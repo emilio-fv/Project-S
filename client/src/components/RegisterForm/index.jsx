@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -12,9 +14,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
 const RegisterForm = (props) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [registerFormData, setRegisterFormData] = useState({
+  const navigate = useNavigate();
+  // Register User Form Data
+  const [newUserData, setNewUserData] = useState({
     firstName: '',
     lastName: '',
     email: '',
@@ -22,6 +24,10 @@ const RegisterForm = (props) => {
     password: '',
     confirmPassword: ''
   });
+
+  // Password Visibility Feature
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -35,39 +41,47 @@ const RegisterForm = (props) => {
     event.preventDefault();
   };
 
-  const handleChange = (event) => {    
-    setRegisterFormData({
-      ...registerFormData,
+  // Register Form Functions
+  const handleRegisterFormChanges = (event) => {    
+    setNewUserData({
+      ...newUserData,
       [event.target.name]: event.target.value
     })
-    console.log(registerFormData);
 }
 
-  const handleSubmit = (event) => {
+  const handleRegisterFormSubmit = (event) => {
     event.preventDefault();
-    console.log(registerFormData);
-    setRegisterFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: ''
-    })
+    console.log(newUserData);
+    axios.post('http://localhost:8000/api/users/register', newUserData, { withCredentials: true })
+      .then(res => {
+        console.log(res);
+        navigate("/dashboard");
+      })
+      .catch(error => console.log(error));
+
+    // setNewUserData({
+    //   firstName: '',
+    //   lastName: '',
+    //   email: '',
+    //   phone: '',
+    //   password: '',
+    //   confirmPassword: ''
+    // })
   }
 
+  // Component
   return (
-    <Box>
-      <Typography align='center' variant='h4' sx={{ marginBottom: '25px'}}>Register</Typography>
-      <Box component='form' sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }} >
-        <TextField id='firstName' label='First Name' variant='outlined' name='firstName' value={registerFormData.firstName} onChange={event => handleChange(event)}/>
-        <TextField id='lastName' label='Last Name' variant='outlined' name='lastName' value={registerFormData.lastName} onChange={event => handleChange(event)}/>
-        <TextField id='input-email' label='Email' variant='outlined' name='email' value={registerFormData.email} onChange={event => handleChange(event)}/>
-        <TextField id='phone' label='Phone Number' variant='outlined' name='phone' value={registerFormData.phone} onChange={event => handleChange(event)}/>        
+    <Box component="div">
+      <Typography align="center" variant="h4" component="h2" sx={{ marginBottom: '25px'}}>Register</Typography>
+      <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }} onSubmit={handleRegisterFormSubmit}>
+        <TextField id="firstName" label="First Name" variant="outlined" name="firstName" value={newUserData.firstName} onChange={event => handleRegisterFormChanges(event)}/>
+        <TextField id="lastName" label="Last Name" variant="outlined" name="lastName" value={newUserData.lastName} onChange={event => handleRegisterFormChanges(event)}/>
+        <TextField id="input-email" label="Email" variant="outlined" name="email" value={newUserData.email} onChange={event => handleRegisterFormChanges(event)}/>
+        <TextField id="phone" label="Phone Number" variant="outlined" name="phone" value={newUserData.phone} onChange={event => handleRegisterFormChanges(event)}/>        
         <FormControl variant="outlined" fullWidth>
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="input-password">Password</InputLabel>
           <OutlinedInput
-            id="iput-password"
+            id="input-password"
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
@@ -82,9 +96,9 @@ const RegisterForm = (props) => {
               </InputAdornment>
             }
             label="Password"
-            name='password'
-            value={registerFormData.password}
-            onChange={event => handleChange(event)}
+            name="password"
+            value={newUserData.password}
+            onChange={event => handleRegisterFormChanges(event)}
           />
         </FormControl>
         <FormControl variant="outlined" fullWidth>
@@ -105,12 +119,12 @@ const RegisterForm = (props) => {
               </InputAdornment>
             }
             label="Confirm Password"
-            name='confirmPassword'
-            value={registerFormData.confirmPassword}
-            onChange={event => handleChange(event)}
+            name="confirmPassword"
+            value={newUserData.confirmPassword}
+            onChange={event => handleRegisterFormChanges(event)}
           />
         </FormControl>
-        <Button variant="contained" onClick={handleSubmit}>Login</Button>
+        <Button variant="contained" type='submit'>Register</Button>
       </Box> 
     </Box>
   )
