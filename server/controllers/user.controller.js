@@ -9,6 +9,7 @@ const {
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+// CREATE
 // Register User
 const handleRegisterUser = async (req, res) => {
     console.log("controller: handleRegisterUser req.body: ", req.body);
@@ -36,6 +37,7 @@ const handleRegisterUser = async (req, res) => {
     }
 }
 
+// READ
 // Login User
 const handleLoginUser = async (req, res) => {
     console.log("controller: handleLoginUser req.body: ", req.body);
@@ -75,7 +77,7 @@ const handleLogoutUser = async (req, res) => {
 
 }
 
-// TODO: Check If User Logged In
+// Check If User Logged In
 const handleLoggedInUserCheck = async (req, res) => {
     console.log("controller: handleLoggedInUserCheck");
     try {
@@ -94,19 +96,32 @@ const handleLoggedInUserCheck = async (req, res) => {
     }
 }
 
-// TODO: Get All Users
+// Get All Users
 const handleGetAllUsers = async (req, res) => {
     console.log("controller: handleGetAllUsers");
     try {
         // Get All Users
         const allUsers = await getAllUsers();
         // Return Response With Users Data
-        return res.status(400).json(allUsers);
+        return res.json(allUsers);
     } catch (error) {
         return res.status(400).json(error);
     }
 }
 
+// Get User By Id
+const handleGetUserById = async (req, res) => {
+    console.log("controller: handleGetUserById req.body:", req.body);
+    try {
+        const oneUser = await getUserById(req.body.id);
+        return res.json(oneUser);
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+}
+// UPDATE
+
+// DELETE
 // Delete User
 const handleDeleteUserById = async (req, res) => {
     console.log("controller: handledDleteUserById req.params: ", req.params.id);
@@ -127,5 +142,6 @@ module.exports = {
     handleLoggedInUserCheck: handleLoggedInUserCheck,
     handleLoginUser: handleLoginUser,
     handleLogoutUser: handleLogoutUser,
-    handleRegisterUser: handleRegisterUser
+    handleRegisterUser: handleRegisterUser,
+    handleGetUserById: handleGetUserById
 }

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -9,6 +11,7 @@ const LoginForm = (props) => {
     email: '',
     password: ''
   })
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setLoginFormData({
@@ -19,10 +22,19 @@ const LoginForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoginFormData({
-      email: '',
-      password: ''
-    })
+    axios.post('http://localhost:8000/api/users/login', loginFormData, { withCredentials: true })
+      .then(res => {
+        console.log(res);
+        navigate('/dashboard');
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
+    // setLoginFormData({
+    //   email: '',
+    //   password: ''
+    // })
   }
 
   return (

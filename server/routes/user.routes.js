@@ -7,7 +7,8 @@ const {
     handleLoggedInUserCheck,
     handleLoginUser,
     handleLogoutUser,
-    handleRegisterUser
+    handleRegisterUser,
+    handleGetUserById
 } = require('../controllers/user.controller');
 
 // Create Router
@@ -15,6 +16,7 @@ const router = express.Router();
 
 // User API Routes
 router.get('/allUsers', authenticate, handleGetAllUsers);
+router.get('/:id/user', authenticate, handleGetUserById);
 router.post('/register', handleRegisterUser);
 router.post('/login', handleLoginUser);
 router.get('/logout', handleLogoutUser);
