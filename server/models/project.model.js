@@ -17,11 +17,15 @@ const projectSchema = new mongoose.Schema({
     projectManager: {
         type: String,
         required: [true, "Project manager is required."]
-    }
+    },
     // TODO: team
-        // Array of user ids
+    team: {
+        type: [Number],
+    },
     // TODO: tickets
-        // Array of tickets
+    tickets: {
+        type: [String]
+    }
 }, { timestamps: true });
 
 // Create Project Model
