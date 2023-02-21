@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset } from '../../features/auth/authSlice';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import StyledButton from '../Button/index';
 import AvatarImg from '../../imgs/avatar_sample.png';
-import LinkComponent from '@mui/material/Link';
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Sidebar = (props) => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!user) {
-            navigate('/login');
-        }
-    }, [user, navigate]);
+    const isAdmin = user.admin;
 
     const handleLogout = (event) => {
         dispatch(logout());
@@ -43,9 +37,12 @@ const Sidebar = (props) => {
                     />
                     <Typography variant="h5" component="h2" sx={{ marginBottom: '10px' }}>{ user? user.firstName : '' } { user? user.lastName : '' } </Typography>
                     <Typography variant="subtitle1" component="h3" sx={{ marginBottom: '25px' }}>TODO</Typography>
-                    <LinkComponent href='/dashboard' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Dashboard</LinkComponent>
-                    <LinkComponent href='/tickets' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Tickets</LinkComponent>
-                    <LinkComponent href='/admin' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Admin</LinkComponent>
+                    <Link component={RouterLink} to='/dashboard' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Dashboard</Link>
+                    <Link component={RouterLink} to='/tickets' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }}>Tickets</Link>
+                    { isAdmin
+                        ? <Link component={RouterLink} to='/admin' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Admin</Link>
+                        : null
+                    }
                 </Box>
                 <StyledButton clickAction={handleLogout} text="Logout"/>
             </Box>

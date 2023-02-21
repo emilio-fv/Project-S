@@ -67,7 +67,8 @@ const handleLoginUser = async (req, res) => {
         }).json({
             _id: userWithSameEmail._id,
             firstName: userWithSameEmail.firstName,
-            lastName: userWithSameEmail.lastName
+            lastName: userWithSameEmail.lastName,
+            admin: userWithSameEmail.admin
         });
     } catch (error) {
         return res.status(400).json(error);
@@ -100,6 +101,7 @@ const handleLoggedInUserCheck = async (req, res) => {
             _id: foundUser._id,
             firstName: foundUser.firstName,
             lastName: foundUser.lastName,
+            admin: foundUser.admin
         });
     } catch (error) {
         return res.status(400).json(error);
