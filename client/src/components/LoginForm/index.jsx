@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, loggedInCheck, reset } from '../../features/auth/authSlice';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -13,15 +14,37 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const LoginForm = (props) => {
-  const navigate = useNavigate();
-
   // Login Form Data
   const [loginFormData, setLoginFormData] = useState({
     email: '',
     password: ''
   })
+  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, messages } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(loggedInCheck())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isError) {
+      setErrorMessage(messages);
+    }
+
+    if (isSuccess || user ) {
+      navigate('/dashboard');
+    }
+
+    dispatch(reset());
+  }, [user, isSuccess, isError])
+
 
   // Error Messages
   const [errorMessage, setErrorMessage] = useState(null);
@@ -45,15 +68,15 @@ const LoginForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:8000/api/users/login', loginFormData, { withCredentials: true })
-      .then(res => {
-        console.log(res);
-        navigate('/dashboard');
-      })
-      .catch(error => {
-        console.log(error);
-        setErrorMessage(error.response.data.error);
-      })
+    dispatch(login(loginFormData))
+  }
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
@@ -99,6 +122,7 @@ const LoginForm = (props) => {
         </FormControl>
         <Button variant="contained" type="submit">Login</Button>
       </Box>
+      <Typography>Don't have an account? <Link to='/'>Register here</Link></Typography>
     </Box>
   )
 }

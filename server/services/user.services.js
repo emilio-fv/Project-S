@@ -29,11 +29,18 @@ const getUserByEmail = async (email) => {
     return oneUser;
 };
 
+// Update User By Id
+const updateUserById = async (id, data) => {
+    console.log("service: updateUserById");
+    const updatedUser = await User.findByIdAndUpdate({ _id: id }, data);
+    return updatedUser;
+}
+
 // Delete User By Id
 const deleteUserById = async (id) => {
     console.log("service: deleteUserById");
-    const deletedUser = await User.findByIdAndDelete(id);
-    return deleteUserById;
+    const deletedUser = await User.findByIdAndDelete({ _id: id });
+    return deletedUser;
 };
 
 // Exports
@@ -42,5 +49,6 @@ module.exports = {
     getAllUsers: getAllUsers,
     getUserById: getUserById,
     getUserByEmail: getUserByEmail,
+    updateUserById: updateUserById,
     deleteUserById: deleteUserById
 };

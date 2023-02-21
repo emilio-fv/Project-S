@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { register, loggedInCheck, reset } from '../../features/auth/authSlice';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -13,10 +14,9 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import FormHelperText from '@mui/material/FormHelperText';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const RegisterForm = (props) => {
-  const navigate = useNavigate();
-
   // Register User Form Data
   const [newUserData, setNewUserData] = useState({
     firstName: '',
@@ -27,9 +27,30 @@ const RegisterForm = (props) => {
     confirmPassword: ''
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, messages } = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(loggedInCheck())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isError) {
+      setErrorMessages(messages);
+    }
+
+    if (isSuccess || user) {
+      navigate('/dashboard');
+    }
+
+    dispatch(reset());
+  }, [user, isSuccess, isError])
+
   // Error Messages
   const [errorMessages, setErrorMessages] = useState({});
-  console.log(errorMessages);
 
   // Password Visibility
   const [showPassword, setShowPassword] = useState(false);
@@ -57,23 +78,21 @@ const RegisterForm = (props) => {
 
   const handleRegisterFormSubmit = (event) => {
     event.preventDefault();
-    console.log(newUserData);
-    axios.post('http://localhost:8000/api/users/register', newUserData, { withCredentials: true })
-      .then(res => {
-        console.log(res);
-        navigate("/dashboard");
-      })
-      .catch(error => {
-        console.log(error);
-        setErrorMessages(error.response.data.errors);
-      });
+    dispatch(register(newUserData));
   }
 
-  // Component
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box component="div">
       <Typography align="center" variant="h4" component="h2" sx={{ marginBottom: '25px'}}>Register</Typography>
-      <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }} onSubmit={handleRegisterFormSubmit} autoComplete="off">
+      <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }} onSubmit={event => handleRegisterFormSubmit(event)} autoComplete="off">
         <TextField 
           id="firstName" 
           label="First Name" 
@@ -174,6 +193,7 @@ const RegisterForm = (props) => {
         </FormControl>
         <Button variant="contained" type='submit'>Register</Button>
       </Box> 
+      <Typography>Already register? <Link to='/login'>Login here</Link></Typography>
     </Box>
   )
 }

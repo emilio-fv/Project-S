@@ -4,12 +4,12 @@ const {
     getAllUsers,
     getUserByEmail,
     getUserById,
+    updateUserById,
     deleteUserById
 } = require('../services/user.services');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-// CREATE
 // Register User
 const handleRegisterUser = async (req, res) => {
     console.log("controller: handleRegisterUser req.body: ", req.body);
@@ -27,7 +27,11 @@ const handleRegisterUser = async (req, res) => {
             // Return Response With Cookie
             return res.cookie("userToken", userToken, process.env.SECRET_KEY, {
                 httpOnly: true
-            }).json(newUser);
+            }).json({
+                _id: newUser._id,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName
+            });
         } else {
             // If Email Already Registered
             return res.status(400).json({ errors: { email: { message: "Email is already registered."}}});
@@ -37,7 +41,6 @@ const handleRegisterUser = async (req, res) => {
     }
 }
 
-// READ
 // Login User
 const handleLoginUser = async (req, res) => {
     console.log("controller: handleLoginUser req.body: ", req.body);
@@ -61,7 +64,11 @@ const handleLoginUser = async (req, res) => {
         // Return Response With Cookie
         return res.cookie("userToken", userToken, process.env.SECRET_KEY, {
             httpOnly: true
-        }).json(userWithSameEmail);
+        }).json({
+            _id: userWithSameEmail._id,
+            firstName: userWithSameEmail.firstName,
+            lastName: userWithSameEmail.lastName
+        });
     } catch (error) {
         return res.status(400).json(error);
     }
@@ -74,7 +81,6 @@ const handleLogoutUser = async (req, res) => {
     res.clearCookie("userToken");
     // Return Status
     res.sendStatus(200);
-
 }
 
 // Check If User Logged In
@@ -85,12 +91,16 @@ const handleLoggedInUserCheck = async (req, res) => {
         const decodedJwt = jwt.decode(req.cookies.userToken, { complete: true });
         // Get User By Id
         const foundUser = await getUserById(decodedJwt.payload.id);
-        // TODO: If User Not Logged In
+        // If User Not Logged In
         if (foundUser === null) {
             return res.status(400).json({ error: "Not logged in."});
         }
         // If User Logged In
-        return res.json(foundUser);
+        return res.json({
+            _id: foundUser._id,
+            firstName: foundUser.firstName,
+            lastName: foundUser.lastName,
+        });
     } catch (error) {
         return res.status(400).json(error);
     }
@@ -119,12 +129,21 @@ const handleGetUserById = async (req, res) => {
         return res.status(400).json(error);
     }
 }
-// UPDATE
 
-// DELETE
+// Update User By Id
+const handleUpdateUserById = async (req, res) => {
+    console.log(`controller: handleUpdateUserById req.params: ${req.params.id} req.body: ${req.body}`);
+    try {
+        const updatedUser = await updateUserById(req.params.id, req.body);
+        return res.json(updatedUser);
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+}
+
 // Delete User
 const handleDeleteUserById = async (req, res) => {
-    console.log("controller: handledDleteUserById req.params: ", req.params.id);
+    console.log("controller: handledDeleteUserById req.params: ", req.params.id);
     try {
         // Delete User
         const deletedUser = await deleteUserById(req.params.id);
@@ -143,5 +162,6 @@ module.exports = {
     handleLoginUser: handleLoginUser,
     handleLogoutUser: handleLogoutUser,
     handleRegisterUser: handleRegisterUser,
+    handleUpdateUserById: handleUpdateUserById,
     handleGetUserById: handleGetUserById
 }
