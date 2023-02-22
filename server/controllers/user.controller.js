@@ -30,7 +30,9 @@ const handleRegisterUser = async (req, res) => {
             }).json({
                 _id: newUser._id,
                 firstName: newUser.firstName,
-                lastName: newUser.lastName
+                lastName: newUser.lastName,
+                admin: newUser.admin,
+                projects: newUser.projects
             });
         } else {
             // If Email Already Registered
@@ -68,7 +70,8 @@ const handleLoginUser = async (req, res) => {
             _id: userWithSameEmail._id,
             firstName: userWithSameEmail.firstName,
             lastName: userWithSameEmail.lastName,
-            admin: userWithSameEmail.admin
+            admin: userWithSameEmail.admin,
+            projects: userWithSameEmail.projects
         });
     } catch (error) {
         return res.status(400).json(error);
@@ -101,7 +104,8 @@ const handleLoggedInUserCheck = async (req, res) => {
             _id: foundUser._id,
             firstName: foundUser.firstName,
             lastName: foundUser.lastName,
-            admin: foundUser.admin
+            admin: foundUser.admin,
+            projects: foundUser.projects
         });
     } catch (error) {
         return res.status(400).json(error);

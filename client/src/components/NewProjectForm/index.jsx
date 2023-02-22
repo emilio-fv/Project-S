@@ -71,11 +71,12 @@ const NewProjectForm = (props) => {
                     Add Project
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '10px' }}>
-                    <TextField id="" label="Project Name" variant="outlined" />
-                    <TextField id="" label="Description" variant="outlined" multiline/>
+                    <TextField name='name' label="Project Name" variant="outlined" onChange={props.handleChange}/>
+                    <TextField name='description' label="Description" variant="outlined" multiline onChange={props.handleChange}/>
                     <FormControl sx={{ m: 1, width: 300 }}>
                         <InputLabel id="demo-multiple-name-label">Name</InputLabel>
                         <Select
+                            name='team'
                             labelId="demo-multiple-name-label"
                             id="demo-multiple-name"
                             multiple

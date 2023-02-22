@@ -8,23 +8,36 @@ import Box from '@mui/material/Box';
 import StyledModal from '../components/NewProjectForm';
 
 const Dashboard = (props) => {
+  const [projectFormData, setProjectFormData] = useState({
+    name: '',
+    description: '',
+    projectManager: null,
+    team: null,
+  })
+
     const [personName, setPersonName] = useState([]);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const handleChange = (event) => {
-        const {
-          target: { value },
-        } = event;
-        setPersonName(
-          typeof value === 'string' ? value.split(',') : value,
-        );
-      };
+      const { target: { value }, } = event;
+
+      if (event.target.name === 'team') {
+        setPersonName(typeof value === 'string' ? value.split(',') : value);
+      } else {
+        setProjectFormData({
+          ...projectFormData,
+          [event.target.name]: value
+        })
+      }
+    }
 
     const handleSubmit = (event) => {
-        console.log("TODO handle submit new project form");
-        handleClose();
+      console.log("TODO handle submit new project form");
+      console.log(personName);
+      console.log(projectFormData);
+      handleClose();
     }
 
     return (

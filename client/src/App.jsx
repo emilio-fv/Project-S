@@ -17,7 +17,7 @@ function App() {
         <Route path='/login' element={ <Login /> }/>
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={ <Dashboard />}/>
-          <Route path='/project' element={ <Project /> }/>
+          <Route path='/project/:projectId' element={ <Project /> }/>
           <Route path='/tickets' element={ <Tickets /> }/>
           <Route element={<AdminRoute />}>
             <Route path='/admin' element={ <Admin /> }/>

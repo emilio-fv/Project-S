@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { userRouter } = require('./routes/user.routes');
+const { projectRouter } = require('./routes/project.routes');
 
 // Set Port #
 const port = 8000;
@@ -27,6 +28,7 @@ app.use(express.urlencoded({
     extended: true 
 }));
 app.use('/api/users', userRouter);
+app.use('/api/projects', projectRouter);
 
 // Initialize Server
 app.listen(port, () => {
