@@ -48,6 +48,7 @@ const NewProjectForm = (props) => {
     // const theme = useTheme();
     const { personnel } = props;
     const { errorMessages } = props;
+    const { personName } = props;
 
     return (
         <Modal
@@ -89,11 +90,11 @@ const NewProjectForm = (props) => {
                             labelId="demo-multiple-name-label"
                             id="demo-multiple-name"
                             multiple
-                            value={ !props.personName ? [] : props.personName }
+                            value={personName}
                             onChange={props.handleChange}
                             input={<OutlinedInput 
                             label="Team Members" 
-                            error={ props.personName?.length === 0 ? true : false}
+                            error={ props.formData.teams?.length === 0 ? true : false}
                         />}
                             MenuProps={MenuProps}
                         >

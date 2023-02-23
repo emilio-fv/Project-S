@@ -117,7 +117,16 @@ const handleGetAllUsers = async (req, res) => {
     console.log("controller: handleGetAllUsers");
     try {
         // Get All Users
-        const allUsers = await getAllUsers();
+        const response = await getAllUsers();
+        
+        let allUsers = [];
+        for (let row of response) {
+            allUsers.push({
+                _id: row._id,
+                firstName: row.firstName,
+                lastName: row.lastName
+            })
+        }
         // Return Response With Users Data
         return res.json(allUsers);
     } catch (error) {

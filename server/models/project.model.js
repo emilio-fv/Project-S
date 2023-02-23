@@ -13,25 +13,16 @@ const projectSchema = new mongoose.Schema({
     },
     projectManager: {
         type: {
-            userId: String, 
-            firstName: String,
-            lastName: String,
+            userId: String,
             _id: false
         },
         required: [true, "Project manager is required."]
     },
     team: {
-        type: [{
-            userId: String,
-            firstName: String,
-            lastName: String,
-            _id: false
-        }],
-        default: undefined,
-        required: [true, "Must select at least 1 team member."],
+        type: [String],
         validate: {
             validator: function(val) {
-                return val.length === 0;
+                return val.length != 0;
             },
             message: "Must select at least 1 team member."
         }

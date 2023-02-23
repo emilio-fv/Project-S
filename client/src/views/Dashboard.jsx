@@ -7,14 +7,7 @@ import ProjectsTable from '../components/ProjectsTable';
 import Box from '@mui/material/Box';
 import StyledModal from '../components/NewProjectForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProject, reset } from '../features/projects/projectsSlice';
-
-const projectForm = {
-  name: '',
-  description: '',
-  projectManager: null,
-  team: null,
-}
+import { createProject, fetchManyProjects, reset } from '../features/projects/projectsSlice';
 
 const Dashboard = (props) => {
   const dispatch = useDispatch();
@@ -25,16 +18,38 @@ const Dashboard = (props) => {
   const currentUser = useSelector((state) => state.auth.user);
   const { status: projectStatus, error } = useSelector((state) => state.projects);
   const [errorMessages, setErrorMessages] = useState({});
-
+  const [team, setTeam] = useState([]);
+  
   // Project Form Data
-  const [projectFormData, setProjectFormData] = useState(projectForm)
+  const [projectFormData, setProjectFormData] = useState({
+    name: '',
+    description: '',
+    projectManager: { userId: currentUser._id}
+  })
 
   useEffect(() => {
+    const ids = {
+      ids: currentUser.projects
+    }
+
+    if (projectStatus === 'idle') {
+      dispatch(fetchManyProjects(ids))
+    } 
+
     if (projectStatus === 'failed') {
       console.log(error)
       setErrorMessages(error);
     }
 
+    if (projectStatus === 'succeeded') {
+      setProjectFormData({
+        name: '',
+        description: '',
+        projectManager: { userId: currentUser._id}
+      });
+      setTeam([]);
+      handleClose();
+    }
   }, [projectStatus])
 
   // Form Changes
@@ -43,40 +58,44 @@ const Dashboard = (props) => {
     const { target: { value } } = event;
 
     if (name === 'team') {
-      setProjectFormData({
-        ...projectFormData,
-        team: typeof value === 'string' ? value.split(',') : value
-      })} else {
+      setTeam(typeof value === 'string' ? value.split(',') : value);
+    } else {
         setProjectFormData({
           ...projectFormData,
           [name]: value
         })
-      } 
+    }
   }
 
   // Form Submit
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      dispatch(createProject(projectFormData));
-      if (projectFormData.team === null) {
-        projectFormData.team = []
-      }
-      // if (projectStatus === 'succeeded') {
-      //   setProjectFormData(projectForm);
-      //   handleClose();
-      // }
-    }
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    return (
-        <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
-            <Sidebar />
-            <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
-                <MainDisplay displayTitle={"Projects"} buttonText={"Add Project"} clickAction={handleOpen} display={<ProjectsTable />} />
-                <SecondaryDisplay displayTitle={"Tickets"} display={<TicketsOverview />} />
-            </Box>
-            <StyledModal open={open} handleClose={handleClose} formData={projectFormData} personName={projectFormData.team} handleChange={handleChange} handleSubmit={handleSubmit} personnel={personnel.filter(person => person._id !== currentUser._id)} errorMessages={errorMessages} />
+    dispatch(createProject({
+      ...projectFormData,
+      team: team
+    }));
+  }
+
+  return (
+    <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
+      <Sidebar />
+        <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
+          <MainDisplay displayTitle={"Projects"} buttonText={"Add Project"} clickAction={handleOpen} display={<ProjectsTable />} />
+          <SecondaryDisplay displayTitle={"Tickets"} display={<TicketsOverview />} />
         </Box>
-    )
+        <StyledModal 
+          open={open} 
+          handleClose={handleClose} 
+          formData={projectFormData} 
+          personName={team}
+          handleChange={handleChange} 
+          handleSubmit={handleSubmit} 
+          personnel={personnel.filter(person => person._id !== currentUser._id)} 
+          errorMessages={errorMessages} 
+        />
+    </Box>
+  )
 }
 
 export default Dashboard ;

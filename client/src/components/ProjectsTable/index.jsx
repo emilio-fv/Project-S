@@ -22,21 +22,9 @@ const tableHeaders = [
 ]
 
 const ProjectsTable = (props) => {
-    const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth.user);
     const projects = useSelector((state) =>  state.projects.projects);
-    const projectsStatus = useSelector((state) =>  state.projects.status);
-
-    useEffect(() => {
-        const ids = {
-            ids: currentUser.projects
-        }
-
-        if (projectsStatus === 'idle') {
-            dispatch(fetchManyProjects(ids))
-        }
-
-    }, [projectsStatus, dispatch])
+    const personnel = useSelector((state) => state.personnel.personnel);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -55,9 +43,9 @@ const ProjectsTable = (props) => {
 
     let tableBody;
 
-    if (projectsStatus === 'loading') {
+    if (projects.length === 0) {
         tableBody = null
-    } else if  (projectsStatus === 'succeeded') {
+    } else if  (projects.length !== 0) {
         tableBody = 
         <TableBody>
             {( rowsPerPage > 0
@@ -78,8 +66,8 @@ const ProjectsTable = (props) => {
                         }
                     </TableCell>
                     <TableCell sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-                        {row.team.map((member) => (
-                        <Typography>{member.firstName} {member.lastName}</Typography>
+                        {personnel.map((person) => (
+                            row.team.includes(person._id) ? <Typography>{person.firstName} {person.lastName}</Typography> : null
                         ))}
                     </TableCell>
                 </TableRow>
@@ -90,8 +78,6 @@ const ProjectsTable = (props) => {
             </TableRow>
             )}
         </TableBody>
-    } else if (projectsStatus === 'failed') {
-        tableBody = null
     }
 
     return (
