@@ -34,7 +34,7 @@
 
 
 ## Features
-- Register / Login 
+- Register / Login User
 - Create Projects
 
 
