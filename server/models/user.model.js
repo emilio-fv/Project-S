@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema({
     admin: {
         type: Boolean,
         default: false
+    },
+    // TODO: Projects
+    projects: {
+        type: [String]
     }
 }, { timestamps: true });
 

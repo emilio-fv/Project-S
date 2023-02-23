@@ -8,8 +8,11 @@ import Login from './views/Login';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import { Routes, Route } from 'react-router-dom';
+import { store } from './store';
+import { fetchAllPersonnel } from './features/personnel/personnelSlice';
 
 function App() {
+  store.dispatch(fetchAllPersonnel());
   return (
     <div className="App">
       <Routes>
@@ -17,7 +20,7 @@ function App() {
         <Route path='/login' element={ <Login /> }/>
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={ <Dashboard />}/>
-          <Route path='/project' element={ <Project /> }/>
+          <Route path='/project/:projectId' element={ <Project /> }/>
           <Route path='/tickets' element={ <Tickets /> }/>
           <Route element={<AdminRoute />}>
             <Route path='/admin' element={ <Admin /> }/>

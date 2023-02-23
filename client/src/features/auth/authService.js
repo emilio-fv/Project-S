@@ -5,14 +5,12 @@ const API_URL = '/api/users/';
 // Logged In User Check 
 const loggedInCheck = async () => {
     const response = await axios.get(API_URL + 'loggedInCheck', { withCredentials: true })
-
     return response.data;
 }
 
 // Register User
 const register = async (userData) => {
     const response = await axios.post(API_URL + 'register', userData, { withCredentials: true })
-
     return response.data;
 }
 

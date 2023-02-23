@@ -1,28 +1,32 @@
 // Imports Mongoose
 const mongoose = require('mongoose');
 
-// TODO: Project Schema
+// Project Schema
 const projectSchema = new mongoose.Schema({
-    // TODO: name
     name: {
         type: String,
         required: [true, "Project name is required."]
     },
-    // TODO: description
     description: {
         type: String,
         required: [true, "Description is required."]
     },
-    // TODO: projectManager
     projectManager: {
-        type: String,
+        type: {
+            userId: String,
+            _id: false
+        },
         required: [true, "Project manager is required."]
     },
-    // TODO: team
     team: {
-        type: [Number],
+        type: [String],
+        validate: {
+            validator: function(val) {
+                return val.length != 0;
+            },
+            message: "Must select at least 1 team member."
+        }
     },
-    // TODO: tickets
     tickets: {
         type: [String]
     }

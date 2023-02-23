@@ -36,7 +36,7 @@ const Sidebar = (props) => {
                         loading="lazy"
                     />
                     <Typography variant="h5" component="h2" sx={{ marginBottom: '10px' }}>{ user? user.firstName : '' } { user? user.lastName : '' } </Typography>
-                    <Typography variant="subtitle1" component="h3" sx={{ marginBottom: '25px' }}>TODO</Typography>
+                    <Typography variant="subtitle1" component="h3" sx={{ marginBottom: '25px' }}>{ isAdmin ? 'Admin / ' : ''}Developer</Typography>
                     <Link component={RouterLink} to='/dashboard' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }} >Dashboard</Link>
                     <Link component={RouterLink} to='/tickets' underline='none' sx={{ marginBottom: '10px', fontSize: '1.25rem' }}>Tickets</Link>
                     { isAdmin

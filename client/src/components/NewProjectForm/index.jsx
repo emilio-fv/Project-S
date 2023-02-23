@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import StyledButton from '../Button/index.jsx';
+import FormHelperText from '@mui/material/FormHelperText';
 import { useTheme } from '@mui/material/styles';
 
 const ITEM_HEIGHT = 48;
@@ -22,28 +23,14 @@ const MenuProps = {
   },
 };
 
-// Sample Team Members Data
-const sampleNames = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
-
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight:
-        personName.indexOf(name) === -1
-            ? theme.typography.fontWeightRegular
-            : theme.typography.fontWeightMedium,
-    };
-}
+// function getStyles(name, personName, theme) {
+//     return {
+//         fontWeight:
+//         personName.indexOf(name) === -1
+//             ? theme.typography.fontWeightRegular
+//             : theme.typography.fontWeightMedium,
+//     };
+// }
 
 const modalStyle = {
     position: 'absolute',
@@ -58,7 +45,10 @@ const modalStyle = {
 };
 
 const NewProjectForm = (props) => {
-    const theme = useTheme();
+    // const theme = useTheme();
+    const { personnel } = props;
+    const { errorMessages } = props;
+    const { personName } = props;
 
     return (
         <Modal
@@ -67,35 +57,62 @@ const NewProjectForm = (props) => {
             aria-labelledby="add project form"
         >
             <Box sx={modalStyle}>
-                <Typography id="modal-modal-title" variant="h6" component="h2" textAlign="center" sx={{ marginBottom: '10px' }}>
+                <Typography id="modal-modal-title" variant="h5" component="h2" textAlign="center" sx={{ marginBottom: '20px' }}>
                     Add Project
                 </Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '10px' }}>
-                    <TextField id="" label="Project Name" variant="outlined" />
-                    <TextField id="" label="Description" variant="outlined" multiline/>
-                    <FormControl sx={{ m: 1, width: 300 }}>
-                        <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '20px' }}>
+                    <TextField 
+                        fullWidth 
+                        name='name' 
+                        label={props.formData.name ? "" : "Project Name"} 
+                        value={props.formData.name} 
+                        variant="outlined" 
+                        autoComplete='off'
+                        error={ !errorMessages.name ? false : true }
+                        helperText={ !errorMessages.name ? "" : errorMessages.name.message }
+                        onChange={props.handleChange}/>
+                    <TextField 
+                        fullWidth 
+                        name='description' 
+                        label={props.formData.description? "" : "Description"} 
+                        value={props.formData.description} 
+                        variant="outlined" 
+                        multiline
+                        error={ !errorMessages.description ? false : true }
+                        helperText={ !errorMessages.description ? "" : errorMessages.description.message }
+                        rows={6} 
+                        onChange={props.handleChange}
+                    />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-multiple-name-label">Team Members</InputLabel>
                         <Select
+                            name='team'
                             labelId="demo-multiple-name-label"
                             id="demo-multiple-name"
                             multiple
-                            value={props.personName}
+                            value={personName}
                             onChange={props.handleChange}
-                            input={<OutlinedInput label="Name" />}
+                            input={<OutlinedInput 
+                            label="Team Members" 
+                            error={ props.formData.teams?.length === 0 ? true : false}
+                        />}
                             MenuProps={MenuProps}
-                            >
-                            {sampleNames.map((name) => (
+                        >
+                            {personnel.map((person) => (
                                 <MenuItem
-                                key={name}
-                                value={name}
-                                style={getStyles(name, props.personName, theme)}
+                                    key={person._id}
+                                    value={person._id}
+                                // style={getStyles(person, props.personName, theme)}
                                 >
-                                {name}
+                                {person.firstName} {person.lastName}
                                 </MenuItem>
                             ))}
                         </Select>
+                        { props.formData.team?.length > 0 && errorMessages.team ? null : 
+                            <FormHelperText error>{ errorMessages.team?.message }</FormHelperText>
+                        }
                     </FormControl>
-                    <StyledButton clickAction={props.handleSubmit} text={"Add Project"}/>
+                    <StyledButton clickAction={props.handleSubmit} text={"Add Project"} size={"large"}/>
                 </Box>
             </Box>
         </Modal>
