@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api/projects/';
+const API_URL = 'http://localhost:8000/api/projects/';
 
 // Create Project
 const createProject = async (projectData) => {

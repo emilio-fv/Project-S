@@ -5,6 +5,7 @@ const { Project } = require('../models/project.model');
 const createProject = async (data) => {
     console.log("service: createProject");
     const newProject = await Project.create(data);
+    console.log(newProject);
     return newProject;
 }
 

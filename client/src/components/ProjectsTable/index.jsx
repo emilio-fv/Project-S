@@ -31,9 +31,11 @@ const ProjectsTable = (props) => {
         const ids = {
             ids: currentUser.projects
         }
+
         if (projectsStatus === 'idle') {
             dispatch(fetchManyProjects(ids))
         }
+
     }, [projectsStatus, dispatch])
 
     const [page, setPage] = useState(0);

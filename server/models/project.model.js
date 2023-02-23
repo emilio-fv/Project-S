@@ -1,7 +1,7 @@
 // Imports Mongoose
 const mongoose = require('mongoose');
 
-// TODO: Project Schema
+// Project Schema
 const projectSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -27,7 +27,14 @@ const projectSchema = new mongoose.Schema({
             lastName: String,
             _id: false
         }],
-        required: [true, "At least 1 team member required."]
+        default: undefined,
+        required: [true, "Must select at least 1 team member."],
+        validate: {
+            validator: function(val) {
+                return val.length === 0;
+            },
+            message: "Must select at least 1 team member."
+        }
     },
     tickets: {
         type: [String]
