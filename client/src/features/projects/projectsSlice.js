@@ -32,7 +32,7 @@ export const projectsSlice = createSlice({
         reset: (state) => {
             state.status = 'idle'
             state.error = null
-        }
+        },
     },
     extraReducers(builder) {
         builder
@@ -61,4 +61,5 @@ export const projectsSlice = createSlice({
     }
 });
 
+export const { reset } = projectsSlice.actions;
 export default projectsSlice.reducer;

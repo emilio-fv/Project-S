@@ -8,40 +8,38 @@ import Box from '@mui/material/Box';
 import StyledModal from '../components/NewProjectForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProject, fetchManyProjects, reset } from '../features/projects/projectsSlice';
+import { loggedInCheck } from '../features/auth/authSlice';
 
 const Dashboard = (props) => {
-  const dispatch = useDispatch();
+  // Modal 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
+  // Store 
+  const dispatch = useDispatch();
   const personnel = useSelector((state) => state.personnel.personnel);
   const currentUser = useSelector((state) => state.auth.user);
-  const { status: projectStatus, error } = useSelector((state) => state.projects);
-  const [errorMessages, setErrorMessages] = useState({});
-  const [team, setTeam] = useState([]);
-  
+  const { status: projectsStatus, error } = useSelector((state) => state.projects);
+
   // Project Form Data
   const [projectFormData, setProjectFormData] = useState({
     name: '',
     description: '',
     projectManager: { userId: currentUser._id}
   })
+  const [team, setTeam] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({});
 
+  // Set Project Form Error Messages, Reset Form Data
   useEffect(() => {
-    const ids = {
-      ids: currentUser.projects
-    }
-
-    if (projectStatus === 'idle') {
-      dispatch(fetchManyProjects(ids))
-    } 
-
-    if (projectStatus === 'failed') {
-      console.log(error)
+    // Set project form error messages
+    if (projectsStatus === 'failed') {
       setErrorMessages(error);
     }
 
-    if (projectStatus === 'succeeded') {
+    // Reset form and close modal
+    if (projectsStatus === 'succeeded') {
       setProjectFormData({
         name: '',
         description: '',
@@ -50,7 +48,8 @@ const Dashboard = (props) => {
       setTeam([]);
       handleClose();
     }
-  }, [projectStatus])
+  }, [projectsStatus, currentUser, error])
+
 
   // Form Changes
   const handleChange = (event) => {
@@ -71,6 +70,7 @@ const Dashboard = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Create Project
     dispatch(createProject({
       ...projectFormData,
       team: team

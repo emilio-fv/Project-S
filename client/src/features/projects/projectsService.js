@@ -5,7 +5,8 @@ const API_URL = 'http://localhost:8000/api/projects/';
 // Create Project
 const createProject = async (projectData) => {
     const response = await axios.post(API_URL + 'create', projectData, { withCredentials: true })
-    return response.data;
+    console.log(response.data.newProject);
+    return response.data.newProject;
 }
 
 // Get Many Projects

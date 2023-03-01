@@ -12,9 +12,9 @@ const handleCreateProject = async (req, res) => {
     console.log("controller: handleCreateProject req.body: ", req.body);
     try {
         // Create New Project
-        const newProject = await createProject(req.body);
+        const response = await createProject(req.body);
         // Return Response
-        return res.json(newProject);
+        return res.json(response);
     } catch (error) {
         return res.status(400).json(error);
     }
@@ -52,6 +52,7 @@ const handleUpdateProjectById = async (req, res) => {
         return res.status(400).json(error);
     }
 }
+
 // Delete Project
 const handleDeleteProjectById = async (req, res) => {
     console.log("controller: handleDeleteProject req.params: ", req.params.id);

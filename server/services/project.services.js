@@ -1,12 +1,20 @@
 // Import Project Model
 const { Project } = require('../models/project.model');
+const { User } = require('../models/user.model');
 
 // Create Project
 const createProject = async (data) => {
     console.log("service: createProject");
     const newProject = await Project.create(data);
-    console.log(newProject);
-    return newProject;
+    let ids = [
+        newProject.projectManager.userId
+    ]
+    newProject.team.forEach((value) => ids.push(value));
+    const updatedUsers = await User.updateMany({ _id: { $in: ids }}, { $push: { projects: newProject._id }})
+    return { 
+        newProject: newProject, 
+        updatedUsers: updatedUsers 
+    };
 }
 
 // Get Many Projects

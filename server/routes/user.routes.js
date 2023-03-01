@@ -9,6 +9,7 @@ const {
     handleLogoutUser,
     handleRegisterUser,
     handleUpdateUserById,
+    handleUpdateMultipleUsersById,
     handleGetUserById
 } = require('../controllers/user.controller');
 
@@ -23,6 +24,7 @@ router.post('/login', handleLoginUser);
 router.get('/logout', handleLogoutUser);
 router.get('/loggedInCheck', handleLoggedInUserCheck);
 router.post('/:id/update', handleUpdateUserById);
+router.post('/updateProjects', handleUpdateMultipleUsersById); 
 router.delete('/:id/delete', authenticate, handleDeleteUserById);
 
 // Exports

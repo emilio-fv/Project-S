@@ -10,7 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TablePaginationActions from '../TablePaginationActions';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchManyProjects } from '../../features/projects/projectsSlice';
+import { fetchManyProjects, reset } from '../../features/projects/projectsSlice';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -22,12 +22,29 @@ const tableHeaders = [
 ]
 
 const ProjectsTable = (props) => {
+    const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth.user);
-    const projects = useSelector((state) =>  state.projects.projects);
+    const { projects, status } = useSelector((state) => state.projects);
     const personnel = useSelector((state) => state.personnel.personnel);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchManyProjects({ ids: currentUser.projects }))
+        }
+
+        if (status === 'succeeded') {
+            dispatch(reset())
+        }
+    }, [ dispatch, currentUser ])
+
+    useEffect(() => {
+        if (status === 'succeeded') {
+            
+        }
+    }, [status])
 
     const emptyRows = 
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0
@@ -43,7 +60,7 @@ const ProjectsTable = (props) => {
 
     let tableBody;
 
-    if (projects.length === 0) {
+    if (projects.length === 0 || status === 'loading' ) {
         tableBody = null
     } else if  (projects.length !== 0) {
         tableBody = 
@@ -54,20 +71,20 @@ const ProjectsTable = (props) => {
             ).map((row, key) => (
                 <TableRow key={key}>
                     <TableCell>
-                        <Link component={RouterLink} to={`/project/${row._id}`} underline='none'>{row.name}</Link>
+                        <Link component={RouterLink} to={`/project/${row._id}`} underline='none'>{row?.name}</Link>
                     </TableCell>
                     <TableCell>
-                        {row.description.substring(0,75)}...
+                        {row.description?.substring(0,75)}...
                     </TableCell>
                     <TableCell>
-                        { (currentUser._id === row.projectManager.userId)
+                        { (currentUser._id === row.projectManager?.userId)
                             ? "Project Manager"
                             : "Developer"
                         }
                     </TableCell>
                     <TableCell sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
                         {personnel.map((person) => (
-                            row.team.includes(person._id) ? <Typography>{person.firstName} {person.lastName}</Typography> : null
+                            row.team?.includes(person._id) ? <Typography>{person.firstName} {person.lastName}</Typography> : null
                         ))}
                     </TableCell>
                 </TableRow>

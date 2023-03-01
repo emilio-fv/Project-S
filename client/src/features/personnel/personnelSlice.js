@@ -12,6 +12,7 @@ export const fetchAllPersonnel = createAsyncThunk('personnel/fetchAll', async ()
     return await personnelService.fetchAllPersonnel();
 });
 
+
 // Personnel Slice
 export const personnelSlice = createSlice({
     name: 'personnel',

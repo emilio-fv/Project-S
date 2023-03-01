@@ -5,6 +5,7 @@ const {
     getUserByEmail,
     getUserById,
     updateUserById,
+    updateMultipleUsersById,
     deleteUserById
 } = require('../services/user.services');
 const jwt = require('jsonwebtoken');
@@ -124,7 +125,8 @@ const handleGetAllUsers = async (req, res) => {
             allUsers.push({
                 _id: row._id,
                 firstName: row.firstName,
-                lastName: row.lastName
+                lastName: row.lastName,
+                projects: row.projects
             })
         }
         // Return Response With Users Data
@@ -156,6 +158,17 @@ const handleUpdateUserById = async (req, res) => {
     }
 }
 
+// Update Multiple Users By Id
+const handleUpdateMultipleUsersById = async (req, res) => {
+    console.log("controller: handleUpdateMultipleUsersById req.body: ", req.body);
+    try {
+        const updatedUsers = await updateMultipleUsersById(req.body.ids, req.body.projectId);
+        return res.json(updatedUsers);
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+}
+
 // Delete User
 const handleDeleteUserById = async (req, res) => {
     console.log("controller: handledDeleteUserById req.params: ", req.params.id);
@@ -178,5 +191,6 @@ module.exports = {
     handleLogoutUser: handleLogoutUser,
     handleRegisterUser: handleRegisterUser,
     handleUpdateUserById: handleUpdateUserById,
+    handleUpdateMultipleUsersById: handleUpdateMultipleUsersById,
     handleGetUserById: handleGetUserById
 }
