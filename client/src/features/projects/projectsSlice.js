@@ -23,6 +23,10 @@ export const fetchManyProjects = createAsyncThunk('projects/fetchMany', async (i
     return await projectsService.fetchManyProjects(ids);
 });
 
+// Delete Project
+export const deleteProject = createAsyncThunk('projects/deleteOne', async (id) => {
+    return await projectsService.deleteProject(id);
+})
 
 // Project Slice
 export const projectsSlice = createSlice({
@@ -57,6 +61,10 @@ export const projectsSlice = createSlice({
             .addCase(fetchManyProjects.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.error.message
+            })
+            .addCase(deleteProject.fulfilled, (state, action) => {
+                state.projects.pop();
+                state.status = 'idle';
             })
     }
 });

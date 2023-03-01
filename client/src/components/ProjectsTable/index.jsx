@@ -18,7 +18,7 @@ const tableHeaders = [
 	"Project Name",
 	"Description",
 	"Role",
-	"Team Members"
+	"Team Members",
 ]
 
 const ProjectsTable = (props) => {
@@ -39,12 +39,6 @@ const ProjectsTable = (props) => {
             dispatch(reset())
         }
     }, [ dispatch, currentUser ])
-
-    useEffect(() => {
-        if (status === 'succeeded') {
-            
-        }
-    }, [status])
 
     const emptyRows = 
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0

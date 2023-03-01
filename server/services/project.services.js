@@ -42,8 +42,8 @@ const updateProjectById = async (id, data) => {
 // Delete Project By Id
 const deleteProjectById = async (id) => {
     console.log("service: deleteProject");
-    const deletedUser = await Project.findByIdAndDelete({ _id: id });
-    return deletedUser;
+    const deletedProject = await Project.findByIdAndDelete({ _id: id });
+    return deletedProject;
 }
 
 // Exports

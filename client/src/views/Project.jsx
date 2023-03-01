@@ -15,12 +15,20 @@ const Project = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const project = useSelector((state) => state.projects.projects.find(project => project._id === projectId));
+  const currentUser = useSelector((state) => state.auth.user);
 
   return (
     <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
       <Sidebar />
       <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
-        <MainDisplay displayTitle={project.name} buttonText={"New Ticket"} clickAction={handleOpen} display={<ProjectDetails />}/>
+        <MainDisplay
+          displayTitle={project.name}
+          project={project}
+          icons={project.projectManager.userId === currentUser._id ? 'projectManager' : false } 
+          buttonText={"New Ticket"} 
+          clickAction={handleOpen} 
+          display={<ProjectDetails />}
+        />
         <SecondaryDisplay displayTitle={""} display={<TicketDisplay />}/>
       </Box>
       <NewTicketForm open={open} handleClose={handleClose} />
