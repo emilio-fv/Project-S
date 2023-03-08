@@ -7,8 +7,7 @@ import ProjectsTable from '../components/ProjectsTable';
 import Box from '@mui/material/Box';
 import StyledModal from '../components/NewProjectForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProject, fetchManyProjects, reset } from '../features/projects/projectsSlice';
-import { loggedInCheck } from '../features/auth/authSlice';
+import { createProject } from '../features/projects/projectsSlice';
 
 const Dashboard = (props) => {
   // Modal 
@@ -31,14 +30,12 @@ const Dashboard = (props) => {
   const [team, setTeam] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
 
-  // Set Project Form Error Messages, Reset Form Data
+  // Form Error Messages, Reset Form Data
   useEffect(() => {
-    // Set project form error messages
     if (projectsStatus === 'failed') {
       setErrorMessages(error);
     }
 
-    // Reset form and close modal
     if (projectsStatus === 'succeeded') {
       setProjectFormData({
         name: '',
@@ -51,7 +48,7 @@ const Dashboard = (props) => {
   }, [projectsStatus, currentUser, error])
 
 
-  // Form Changes
+  // New Project Form Changes
   const handleChange = (event) => {
     const { target: { name } } = event;
     const { target: { value } } = event;
@@ -66,7 +63,7 @@ const Dashboard = (props) => {
     }
   }
 
-  // Form Submit
+  // New Project Form Submit
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -79,21 +76,21 @@ const Dashboard = (props) => {
 
   return (
     <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
-      <Sidebar />
-        <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
-          <MainDisplay displayTitle={"Projects"} buttonText={"Add Project"} clickAction={handleOpen} display={<ProjectsTable />} />
-          <SecondaryDisplay displayTitle={"Tickets"} display={<TicketsOverview />} />
-        </Box>
-        <StyledModal 
-          open={open} 
-          handleClose={handleClose} 
-          formData={projectFormData} 
-          personName={team}
-          handleChange={handleChange} 
-          handleSubmit={handleSubmit} 
-          personnel={personnel.filter(person => person._id !== currentUser._id)} 
-          errorMessages={errorMessages} 
-        />
+      <Sidebar /> 
+      <Box sx={{ flex: 4, display: 'flex', flexDirection: 'column' }}>
+        <MainDisplay displayTitle={"Projects"} buttonText={"Add Project"} clickAction={handleOpen} display={<ProjectsTable />} />
+        <SecondaryDisplay displayTitle={"Tickets"} display={<TicketsOverview />} />
+      </Box>
+      <StyledModal 
+        open={open} 
+        handleClose={handleClose} 
+        formData={projectFormData} 
+        personName={team}
+        handleChange={handleChange} 
+        handleSubmit={handleSubmit} 
+        personnel={personnel.filter(person => person._id !== currentUser._id)} 
+        errorMessages={errorMessages} 
+      />
     </Box>
   )
 }

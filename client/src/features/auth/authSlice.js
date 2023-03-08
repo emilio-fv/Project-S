@@ -3,9 +3,7 @@ import authService from './authService';
 
 const initialState = {
     user: null,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
+    status: 'idle',
     messages: {}
 }
 
@@ -46,39 +44,32 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.isLoading = false
-            state.isSuccess = false
-            state.isError = false
             state.messages = {}
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(register.pending, (state) => {
-                state.isLoading = true;
+                state.status = 'loading'
             })
             .addCase(register.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
-                state.user = action.payload;
+                state.status = 'succeeded'
+                state.user = action.payload
             })
             .addCase(register.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
+                state.status = 'failed'
                 state.messages = action.payload;
                 state.user = null;
             })
             .addCase(login.pending, (state) => {
-                state.isLoading = true;
+                state.status = 'loading'
             })
             .addCase(login.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
+                state.status = 'succeeded'
                 state.user = action.payload;
             })
             .addCase(login.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
+                state.status = 'failed'
                 state.messages = action.payload;
                 state.user = null;
             })

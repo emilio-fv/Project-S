@@ -18,10 +18,12 @@ function App() {
       <Routes>
         <Route path='/' element={ <Register /> }/>
         <Route path='/login' element={ <Login /> }/>
+        {/* Private Routes */}
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={ <Dashboard />}/>
           <Route path='/project/:projectId' element={ <Project /> }/>
           <Route path='/tickets' element={ <Tickets /> }/>
+          {/* Admin Routes */}
           <Route element={<AdminRoute />}>
             <Route path='/admin' element={ <Admin /> }/>
           </Route>
