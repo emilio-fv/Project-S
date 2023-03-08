@@ -14,7 +14,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const LoginForm = (props) => {
   // Login Form Data
@@ -23,27 +22,30 @@ const LoginForm = (props) => {
     password: ''
   })
 
+  // Helpers
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, messages } = useSelector((state) => state.auth)
+  const { user, status, messages } = useSelector((state) => state.auth)
 
+  // Fetch Logged In User Data
   useEffect(() => {
     if (!user) {
       dispatch(loggedInCheck())
     }
   }, [])
 
+  // Set Form Error Messages, Navigate to Dashboard, Reset Form 
   useEffect(() => {
-    if (isError) {
+    if (status === 'failed') {
       setErrorMessage(messages);
     }
 
-    if (isSuccess || user ) {
+    if (status === 'succeeded' || user) {
       navigate('/dashboard');
     }
 
     dispatch(reset());
-  }, [user, isSuccess, isError])
+  }, [user, status, navigate, dispatch])
 
 
   // Error Messages
@@ -58,7 +60,7 @@ const LoginForm = (props) => {
     event.preventDefault();
   };
 
-  // Login Form Functions
+  // Login Form Changes
   const handleChange = (event) => {
     setLoginFormData({
       ...loginFormData,
@@ -66,23 +68,31 @@ const LoginForm = (props) => {
     })
   }
 
+  // Login Form Submit
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(login(loginFormData))
   }
 
-  if (isLoading) {
-    return (
-      <Box sx={{ display: 'flex' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <Box component="div">
-      <Typography align='center' variant='h4' sx={{ marginBottom: '25px'}}>Login</Typography>
-      <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }} onSubmit={event => handleSubmit(event)}>
+      <Typography 
+        variant='h4'
+        component="h3"
+        align='center' 
+        sx={{ marginBottom: '25px'}}
+      >
+        Login
+      </Typography>
+      <Box 
+        component="form" 
+        sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '10px' 
+        }} 
+        onSubmit={event => handleSubmit(event)}
+      >
         <TextField 
           id="email" 
           label="Email" 
@@ -93,7 +103,11 @@ const LoginForm = (props) => {
           onChange={event => handleChange(event)}
           error={!errorMessage ? false : true }
         />
-        <FormControl variant="outlined" fullWidth size="small">
+        <FormControl 
+          variant="outlined" 
+          fullWidth 
+          size="small"
+        >
           <InputLabel htmlFor="input-password">Password</InputLabel>
           <OutlinedLabel 
             id="password"

@@ -14,7 +14,6 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import FormHelperText from '@mui/material/FormHelperText';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const RegisterForm = (props) => {
   // Register User Form Data
@@ -27,27 +26,30 @@ const RegisterForm = (props) => {
     confirmPassword: ''
   });
 
+  // Helpers
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, messages } = useSelector((state) => state.auth)
+  const { user, status, messages } = useSelector((state) => state.auth)
 
+  // Fetch Logged In User Data
   useEffect(() => {
     if (!user) {
       dispatch(loggedInCheck())
     }
   }, [])
 
+  // Set Form Error Messages, Navigate to Dashboard, Reset Form 
   useEffect(() => {
-    if (isError) {
+    if (status === 'failed') {
       setErrorMessages(messages);
     }
 
-    if (isSuccess || user) {
+    if (status === 'succeeded' || user) {
       navigate('/dashboard');
     }
 
     dispatch(reset());
-  }, [user, isSuccess, isError])
+  }, [user, status, navigate, dispatch])
 
   // Error Messages
   const [errorMessages, setErrorMessages] = useState({});
@@ -68,7 +70,7 @@ const RegisterForm = (props) => {
     event.preventDefault();
   };
 
-  // Register Form Functions
+  // Register Form Changes
   const handleRegisterFormChanges = (event) => {    
     setNewUserData({
       ...newUserData,
@@ -76,23 +78,32 @@ const RegisterForm = (props) => {
     })
 }
 
+  // Register Form Submit
   const handleRegisterFormSubmit = (event) => {
     event.preventDefault();
     dispatch(register(newUserData));
   }
 
-  if (isLoading) {
-    return (
-      <Box sx={{ display: 'flex' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <Box component="div">
-      <Typography align="center" variant="h4" component="h2" sx={{ marginBottom: '25px'}}>Register</Typography>
-      <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }} onSubmit={event => handleRegisterFormSubmit(event)} autoComplete="off">
+      <Typography 
+        align="center" 
+        variant="h4" 
+        component="h2" 
+        sx={{ marginBottom: '25px'}}
+      >
+        Register
+      </Typography>
+      <Box 
+        component="form" 
+        sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '10px' 
+        }} 
+        onSubmit={event => handleRegisterFormSubmit(event)} 
+        autoComplete="off"
+      >
         <TextField 
           id="firstName" 
           label="First Name" 
@@ -100,8 +111,8 @@ const RegisterForm = (props) => {
           name="firstName" 
           size="small"
           value={newUserData.firstName} 
-          error={ !errorMessages.firstName ? false : true }
-          helperText={ !errorMessages.firstName ? "" : `${errorMessages.firstName.message}`}
+          error={!errorMessages.firstName ? false : true}
+          helperText={!errorMessages.firstName ? "" : `${errorMessages.firstName.message}`}
           onChange={event => handleRegisterFormChanges(event)}
         />
         <TextField 
@@ -122,8 +133,8 @@ const RegisterForm = (props) => {
           name="email" 
           size="small"
           value={newUserData.email} 
-          error={ !errorMessages.email ? false : true }
-          helperText={ !errorMessages.email ? "" : `${errorMessages.email.message}`}
+          error={!errorMessages.email ? false : true}
+          helperText={!errorMessages.email ? "" : `${errorMessages.email.message}`}
           onChange={event => handleRegisterFormChanges(event)}
         />
         <TextField 
@@ -133,11 +144,15 @@ const RegisterForm = (props) => {
           name="phone" 
           size="small"
           value={newUserData.phone} 
-          error={ !errorMessages.phone ? false : true }
-          helperText={ !errorMessages.phone ? "" : `${errorMessages.phone.message}`}
+          error={!errorMessages.phone ? false : true}
+          helperText={!errorMessages.phone ? "" : `${errorMessages.phone.message}`}
           onChange={event => handleRegisterFormChanges(event)}
           />
-        <FormControl variant="outlined" fullWidth size="small">
+        <FormControl 
+          variant="outlined" 
+          fullWidth 
+          size="small"
+        >
           <InputLabel htmlFor="input-password">Password</InputLabel>
           <OutlinedInput
             id="password"
