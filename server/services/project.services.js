@@ -43,7 +43,16 @@ const updateProjectById = async (id, data) => {
 const deleteProjectById = async (id) => {
     console.log("service: deleteProject");
     const deletedProject = await Project.findByIdAndDelete({ _id: id });
-    return deletedProject;
+    let ids = [
+        deletedProject.projectManager.userId
+    ]
+    
+    deletedProject.team.forEach((value) => ids.push(value));
+    const updatedUsers = await User.updateMany({ _id: { $in: ids }}, { $pull: { projects: deletedProject._id } });
+    return {
+        deletedProject: deletedProject,
+        updatedUsers: updatedUsers
+    };
 }
 
 // Exports

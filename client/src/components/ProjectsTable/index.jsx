@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -55,7 +56,7 @@ const ProjectsTable = (props) => {
     let tableBody;
 
     if (projects.length === 0 || status === 'loading' ) {
-        tableBody = null
+        tableBody = <Typography>No projects yet!</Typography>
     } else if  (projects.length !== 0) {
         tableBody = 
         <TableBody>

@@ -30,7 +30,7 @@ const updateProject = async (id, projectData) => {
 // Delete Project
 const deleteProject = async (id) => {
     const response = await axios.delete(API_URL + id, { withCredentials: true })
-    return response;
+    return response.data.deletedProject;
 }
 
 const projectsService = {

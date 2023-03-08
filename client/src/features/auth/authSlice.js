@@ -75,6 +75,7 @@ export const authSlice = createSlice({
             })
             .addCase(logout.fulfilled, (state) => {
                 state.user = null;
+                state.status = 'idle';
             })
             .addCase(loggedInCheck.fulfilled, (state, action) => {
                 state.user = action.payload;

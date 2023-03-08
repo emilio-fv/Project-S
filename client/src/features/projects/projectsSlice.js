@@ -18,7 +18,7 @@ export const createProject = createAsyncThunk('projects/createOne', async (proje
     }
 })
 
-// Get Many Projects 
+// Fetch Many Projects 
 export const fetchManyProjects = createAsyncThunk('projects/fetchMany', async (ids) => {
     return await projectsService.fetchManyProjects(ids);
 });
@@ -63,7 +63,7 @@ export const projectsSlice = createSlice({
                 state.error = action.error.message
             })
             .addCase(deleteProject.fulfilled, (state, action) => {
-                state.projects.pop();
+                state.projects = state.projects.filter((id) => id !== action.payload._id);
                 state.status = 'idle';
             })
     }
