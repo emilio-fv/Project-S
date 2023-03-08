@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    // TODO: Projects
     projects: {
         type: [String]
     }

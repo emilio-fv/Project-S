@@ -1,47 +1,45 @@
-// Import Mongoose,
+// Import Mongoose
 const mongoose = require('mongoose');
 
-// TODO: Ticket Schema
+//  Ticket Schema
 const ticketSchema = new mongoose.Schema({
-    // TODO: ticketType
     ticketType: {
         type: String,
         required: [true, "Ticket type is required."]
     },
-    // TODO: summary
+    projectId: {
+        type: String,
+        required: [true, "Project must be selected"]
+    },
     summary: {
         type: String,
         required: [true, "Summary is required."]
     },
-    // TODO: description
     description: {
         type: String,
         required: [true, "Description is required."]
     },
-    // TODO: priority
     priority: {
         type: String,
         required: [true, "Priority is required."]
     },
-    // TODO: estimate
-    estimate: {
-        type: String,
-        required: [true, "Estimate is required."]
-    },
-    // TODO: status
     status: {
         type: String,
         default: "Incomplete"
     },
-    // TODO: dueDate
     dueDate: {
-        type: String,
-        required: [true, "Due date is required."]
+        type: Date,
+        required: [true, "Due date is required."],
+        validate: {
+            validator: function (v) {
+                return (v && v.getDate() > Date.now())
+            },
+            message: "Due date must a future date."
+        }
     },
-    // TODO: assigned
     assigned: {
-        // Q: How to store array of strings (user ids)
-        required: [true, "Assigned team members required."]
+        type: [String],
+        required: [true, "At least 1 team member required."]
     },
     // TODO: Comments
     // TODO: History
