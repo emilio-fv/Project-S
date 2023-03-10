@@ -1,33 +1,84 @@
 // Import Ticket, Project Model
-const { Ticket } = require('../models/ticket.model');
+const { User } = require('../models/user.model');
 const { Project } = require('../models/project.model');
+const { Ticket } = require('../models/ticket.model');
 
-// TODO: Create Ticket
-    // Create ticket
-    // Extract project id 
-    // Update project using project id and add ticket to tickets [] field
-    // Return new ticket and updated project
+// Create Ticket
+const createTicket = async (data) => {
+    console.log("service: createTicket");
+    const newTicket = await Ticket.create(data);
+    
+    // Update project's tickets [] & assigned users' tickets []
+    let projectId = newTicket.project;
+    let userId = newTicket.assignedUser;
 
-// TODO: Get One Ticket
-    // Query using ticket id
-    // Return found user
+    const updatedProject = await Project.findByIdAndUpdate({ _id: projectId }, { $push: { tickets: newTicket._id }});
 
-// TODO: Get Many Tickets
-    // Query for many tickets using ids []
-    // Return array of tickets
+    const updatedUser = await User.findByIdAndUpdate({ _id: userId }, { $push: { tickets: newTicket._id }});
 
-// TODO: Get All Tickets
-    // Query for all tickets
-    // Return array of tickets
+    return { 
+        newTicket: newTicket,
+        updatedProject: updatedProject,
+        updatedUser: updatedUser
+    };
+}
 
-// TODO: Update Ticket By Id
-    // Query and update ticket by id with new ticket data
-    // Return updated ticket
+// Get One Ticket
+const getOneTicket = async (id) => {
+    console.log("service: getOneTicket");
+    const selectedTicket = await Ticket.findById(id)
+        .populate('project', ['name'])
+        .populate('assignedUser', ['firstName', 'lastName'])
+    return selectedTicket;
+}
 
-// TODO: Delete Ticket By Id
-    // Query and delete ticket by id
-    // Extra project id
-    // Update project using project id and remove ticket from tickets [] field
-    // Return deleted ticket and updated projects
+// Get Many Tickets
+const getManyTickets = async (ids) => {
+    console.log("service: getManyTickets");
+    const selectedTickets = await Ticket.find({ '_id': { $in: ids }})
+        .populate('project', ['name'])
+        .populate('assignedUser', ['firstName', 'lastName']);
+    return selectedTickets;
+}
 
-// TODO: Exports
+// Get All Tickets
+const getAllTickets = async () => {
+    console.log("service: getAllTickets");
+    const allTickets = await Ticket.find()
+        .populate('project', ['name'])
+        .populate('assignedUser', ['firstName', 'lastName']);
+    return allTickets;
+}
+
+// Update Ticket By Id
+const updateTicketById = async (id, data) => {
+    console.log("service: updateTicketById");
+    const updatedTicket = await Ticket.findByIdAndUpdate({ _id: id }, data, { new: true });
+    return updatedTicket;
+}
+
+// Delete Ticket By Id
+const deleteTicketById = async (id) => {
+    console.log("service: deleteTicket");
+    const deletedTicket = await Ticket.findByIdAndDelete({ _id: id });
+    // TODO: Update project's tickets [] & user's tickets []
+    let projectId = deletedTicket.project;
+    let userId = deletedTicket.assignedUser;
+    const updatedProject = await Project.findByIdAndUpdate({ _id: projectId }, { $pull: { tickets: deletedTicket._id } });
+    const updatedUser = await User.findByIdAndUpdate({ _id: userId }, { $pull: { tickets: deletedTicket._id }})
+
+    return {
+        updatedProject: updatedProject,
+        updatedUser: updatedUser
+    }
+}
+
+// Exports
+module.exports = {
+    createTicket: createTicket,
+    getOneTicket: getOneTicket,
+    getManyTickets: getManyTickets,
+    getAllTickets: getAllTickets,
+    updateTicketById: updateTicketById,
+    deleteTicketById: deleteTicketById
+}

@@ -13,11 +13,11 @@ const {
 const router = express.Router();
 
 // Project API Routes
-router.post('/create', handleCreateProject);
-router.get('/many', handleGetManyProjects);
-router.get('/all', handleGetAllProjects);
-router.post('/:id/update', handleUpdateProjectById);
-router.delete('/:id', handleDeleteProjectById);
+router.post('/create', handleCreateProject); // ✅
+router.get('/many', handleGetManyProjects); // ✅
+router.get('/all', handleGetAllProjects); // ✅
+router.post('/:id/update', handleUpdateProjectById); // ✅
+router.delete('/:id', handleDeleteProjectById); // ✅ 
 
 // Exports
 module.exports = { projectRouter: router };

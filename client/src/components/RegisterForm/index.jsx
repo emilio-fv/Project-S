@@ -31,15 +31,19 @@ const RegisterForm = (props) => {
   const dispatch = useDispatch();
   const { user, status, messages } = useSelector((state) => state.auth)
 
-  // Fetch Logged In User Data
-  useEffect(() => {
-    if (!user) {
-      dispatch(loggedInCheck())
-    }
-  }, [])
+  // Check if user logged in
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(loggedInCheck())
+  //   }
+  // }, [])
 
-  // Set Form Error Messages, Navigate to Dashboard, Reset Form 
+  // Check If User Logged In, Set Form Error Messages, Navigate to Dashboard, Reset Form 
   useEffect(() => {
+    if (user === null) {
+      dispatch(loggedInCheck());
+    }
+
     if (status === 'failed') {
       setErrorMessages(messages);
     }

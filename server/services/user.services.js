@@ -34,7 +34,7 @@ const updateUserById = async (id, data) => {
     console.log("service: updateUserById");
     const updatedUser = await User.findByIdAndUpdate({ _id: id }, data);
     return updatedUser;
-}
+};
 
 // Delete User By Id
 const deleteUserById = async (id) => {

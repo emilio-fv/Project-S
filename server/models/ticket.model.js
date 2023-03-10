@@ -7,8 +7,9 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: [true, "Ticket type is required."]
     },
-    projectId: {
-        type: String,
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
         required: [true, "Project must be selected"]
     },
     summary: {
@@ -32,17 +33,22 @@ const ticketSchema = new mongoose.Schema({
         required: [true, "Due date is required."],
         validate: {
             validator: function (v) {
-                return (v && v.getDate() > Date.now())
+                return (v && v.getDate() < Date.now())
             },
             message: "Due date must a future date."
         }
     },
-    assigned: {
-        type: [String],
-        required: [true, "At least 1 team member required."]
+    assignedUser: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, "Must assign to a team member."]
     },
-    // TODO: Comments
-    // TODO: History
+    // comments: {
+        // type: [String]
+    // },
+    // history: {
+        // type: [String]
+    // }
 }, { timestamps: true })
 
 // Create Ticket Model

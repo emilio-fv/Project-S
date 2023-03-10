@@ -4,7 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { userRouter } = require('./routes/user.routes');
 const { projectRouter } = require('./routes/project.routes');
-// TODO: Import Ticket Router
+const { ticketRouter } = require('./routes/ticket.routes');
 
 // Set Port #
 const port = 8000;
@@ -30,7 +30,7 @@ app.use(express.urlencoded({
 }));
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);
-// TODO: Add tickets router to middleware
+app.use('/api/tickets', ticketRouter);
 
 // Initialize Server
 app.listen(port, () => {

@@ -5,11 +5,18 @@ const { User } = require('../models/user.model');
 // Create Project
 const createProject = async (data) => {
     console.log("service: createProject");
-    const newProject = await Project.create(data);
-    let ids = [
-        newProject.projectManager.userId
-    ]
-    newProject.team.forEach((value) => ids.push(value));
+    // Create instance of new project & populate PM & team fields
+    let newProject = await Project.create(data);
+    newProject = await (await newProject.populate('projectManager', ['firstName', 'lastName'])).populate('team', ['firstName', 'lastName']);
+
+    // Extract user ids to update user project []
+    let ids = newProject.team.map((value) => value);
+    ids = [
+        ...ids,
+        newProject.projectManager
+    ];
+
+    // Update users
     const updatedUsers = await User.updateMany({ _id: { $in: ids }}, { $push: { projects: newProject._id }})
     return { 
         newProject: newProject, 
@@ -20,14 +27,21 @@ const createProject = async (data) => {
 // Get Many Projects
 const getManyProjects = async (ids) => {
     console.log("service: getManyProjects");
-    const selectedProjects = await Project.find({ '_id': { $in: ids } });
+    const selectedProjects = await Project
+        .find({ '_id': { $in: ids } })
+        .populate('projectManager', ['firstName', 'lastName'])
+        .populate('team', ['firstName', 'lastName'])
+        .populate({ path: 'tickets', populate: { path: 'assignedUser', select: ['firstName', 'lastName']}})
     return selectedProjects;
 }
 
 // Get All Projects
 const getAllProjects = async () => {
     console.log("service: getAllProjects");
-    const allProjects = await Project.find();
+    const allProjects = await Project.find()
+        .populate('projectManager', ['firstName', 'lastName'])
+        .populate('team', ['firstName', 'lastName'])
+        .populate({ path: 'tickets', populate: { path: 'assignedUser', select: ['firstName', 'lastName']}})
     return allProjects
 }
 
@@ -35,7 +49,6 @@ const getAllProjects = async () => {
 const updateProjectById = async (id, data) => {
     console.log("service: updateProjectById");
     const updatedProject = await Project.findByIdAndUpdate({ _id: id }, data, { new: true });
-    console.log(updatedProject);
     return updatedProject;
 }
 
@@ -43,11 +56,14 @@ const updateProjectById = async (id, data) => {
 const deleteProjectById = async (id) => {
     console.log("service: deleteProject");
     const deletedProject = await Project.findByIdAndDelete({ _id: id });
-    let ids = [
-        deletedProject.projectManager.userId
+    // Extract user ids to update
+    let ids = deletedProject.team.map((value) => value);
+    ids = [
+        ...ids,
+        deletedProject.projectManager
     ]
-    
-    deletedProject.team.forEach((value) => ids.push(value));
+
+    // Update users projects
     const updatedUsers = await User.updateMany({ _id: { $in: ids }}, { $pull: { projects: deletedProject._id } });
     return {
         deletedProject: deletedProject,

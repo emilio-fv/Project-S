@@ -16,7 +16,7 @@ export const createProject = createAsyncThunk('projects/createOne', async (proje
         const messages = error.response.data.errors;
         return thunkAPI.rejectWithValue(messages);
     }
-})
+});
 
 // Fetch Many Projects 
 export const fetchManyProjects = createAsyncThunk('projects/fetchMany', async (ids) => {
@@ -26,7 +26,7 @@ export const fetchManyProjects = createAsyncThunk('projects/fetchMany', async (i
 // Delete Project
 export const deleteProject = createAsyncThunk('projects/deleteOne', async (id) => {
     return await projectsService.deleteProject(id);
-})
+});
 
 // Project Slice
 export const projectsSlice = createSlice({
@@ -63,8 +63,8 @@ export const projectsSlice = createSlice({
                 state.error = action.error.message
             })
             .addCase(deleteProject.fulfilled, (state, action) => {
-                state.projects = state.projects.filter((id) => id !== action.payload._id);
-                state.status = 'idle';
+                state.status = 'idle'
+                state.projects = state.projects.filter((project) => project._id !== action.payload._id)
             })
     }
 });

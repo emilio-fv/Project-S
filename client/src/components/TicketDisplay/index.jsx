@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -7,6 +7,7 @@ import TabPanel from '../TabPanel';
 import CommentsLog from '../CommentsLog';
 import HistoryLog from '../HistoryLog';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function allyProps(index) {
     return {
@@ -16,28 +17,40 @@ function allyProps(index) {
 };
 
 const TicketDisplay = (props) => {
+    const { selectedTicket, projectId } = props;
+    const project = useSelector((state) => state.projects.projects.find(project => project._id === projectId ));
+    const ticket = project.tickets.find((ticket) => ticket._id === selectedTicket);
+
+    useEffect(() => {
+        console.log(ticket);
+    }, []);
+
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
 
+    if (selectedTicket === null) {
+        return null;
+    }
+
     return (
         <Box sx={{ maxHeight: '40%', flex: 2, display: 'flex' }}>
             <Box sx={{ flex: 2 }}>
-                <p>TODO: Ticket type</p>
-                <Typography variant='h6' component='h2'>Ticket #TODO: Summary</Typography>
+                <p>{ticket.ticketType}</p>
+                <Typography variant='h6' component='h2'>{ticket.summary}</Typography>
                 <Typography variant='h6' component='h2'>Description</Typography>
-                <Typography>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia culpa vero quaerat beatae sint qui harum porro soluta quos repudiandae, obcaecati expedita, ullam tempora aliquam deleniti, eaque assumenda consequuntur reiciendis!</Typography>
+                <Typography>{ticket.description}</Typography>
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ flex: 1 }}>
                         <Typography>Assigned Team Member</Typography>
-                        <Typography>TODO: add team member</Typography>
+                        <Typography>{ticket.assignedUser.firstName} {ticket.assignedUser.lastName}</Typography>
                     </Box>
                     <Box sx={{ flex: 1 }}>
-                        <Typography>Status: TODO</Typography>
-                        <Typography>Priority: TODO</Typography>
-                        <Typography>Due In: TODO</Typography>
+                        <Typography>Status: {ticket.status}</Typography>
+                        <Typography>Priority: {ticket.priority}</Typography>
+                        <Typography>Due: {ticket.dueDate}</Typography>
                     </Box>
                 </Box>
             </Box>
