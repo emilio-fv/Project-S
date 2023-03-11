@@ -22,7 +22,18 @@ const createProject = async (data) => {
         newProject: newProject, 
         updatedUsers: updatedUsers 
     };
-}
+};
+
+// Get One Project 
+const getOneProject = async (id) => {
+    console.log("service: getOneProject");
+    const selectedProject = await Project
+        .findById(id)
+        .populate('projectManager', ['firstName', 'lastName'])
+        .populate('team', ['firstName', 'lastName'])
+        .populate({ path: 'tickets', populate: { path: 'assignedUser', select: ['firstName', 'lastName']}})
+    return selectedProject;
+};
 
 // Get Many Projects
 const getManyProjects = async (ids) => {
@@ -33,7 +44,7 @@ const getManyProjects = async (ids) => {
         .populate('team', ['firstName', 'lastName'])
         .populate({ path: 'tickets', populate: { path: 'assignedUser', select: ['firstName', 'lastName']}})
     return selectedProjects;
-}
+};
 
 // Get All Projects
 const getAllProjects = async () => {
@@ -43,14 +54,14 @@ const getAllProjects = async () => {
         .populate('team', ['firstName', 'lastName'])
         .populate({ path: 'tickets', populate: { path: 'assignedUser', select: ['firstName', 'lastName']}})
     return allProjects
-}
+};
 
 // Update Project By Id
 const updateProjectById = async (id, data) => {
     console.log("service: updateProjectById");
     const updatedProject = await Project.findByIdAndUpdate({ _id: id }, data, { new: true });
     return updatedProject;
-}
+};
 
 // Delete Project By Id
 const deleteProjectById = async (id) => {
@@ -69,13 +80,14 @@ const deleteProjectById = async (id) => {
         deletedProject: deletedProject,
         updatedUsers: updatedUsers
     };
-}
+};
 
 // Exports
 module.exports = {
     createProject: createProject,
+    getOneProject: getOneProject,
     getManyProjects: getManyProjects,
     getAllProjects: getAllProjects,
     updateProjectById: updateProjectById,
     deleteProjectById: deleteProjectById
-}
+};

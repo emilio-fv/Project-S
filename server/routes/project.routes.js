@@ -3,6 +3,7 @@ const express = require('express');
 const { authenticate } = require('../config/jwt.config');
 const {
     handleCreateProject,
+    handleGetOneProject,
     handleGetManyProjects,
     handleGetAllProjects,
     handleUpdateProjectById,
@@ -14,6 +15,7 @@ const router = express.Router();
 
 // Project API Routes
 router.post('/create', handleCreateProject); // ✅
+router.get('/:id/one', handleGetOneProject); 
 router.get('/many', handleGetManyProjects); // ✅
 router.get('/all', handleGetAllProjects); // ✅
 router.post('/:id/update', handleUpdateProjectById); // ✅

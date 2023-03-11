@@ -35,6 +35,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     dispatch(resetSelected());
   }, [])
+
   // Form Error Messages, Reset Form Data
   useEffect(() => {
     if (projectsStatus === 'failed') {

@@ -23,6 +23,11 @@ export const fetchManyProjects = createAsyncThunk('projects/fetchMany', async (i
     return await projectsService.fetchManyProjects(ids);
 });
 
+// Fetch One Project
+export const fetchOneProject = createAsyncThunk('projects/fetchOne', async (id) => {
+    return await projectsService.fetchOneProject(id);
+})
+
 // Delete Project
 export const deleteProject = createAsyncThunk('projects/deleteOne', async (id) => {
     return await projectsService.deleteProject(id);
@@ -50,6 +55,20 @@ export const projectsSlice = createSlice({
             .addCase(createProject.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 state.projects.push(action.payload)
+            })
+            .addCase(fetchOneProject.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchOneProject.rejected, (state, action) => {
+                state.status = 'rejected'
+            })
+            .addCase(fetchOneProject.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.projects.forEach((project, index) => {
+                    if (project._id === action.payload._id) {
+                        state.projects[index] = action.payload
+                    }
+                })
             })
             .addCase(fetchManyProjects.pending, (state, action) => {
                 state.status = 'loading'

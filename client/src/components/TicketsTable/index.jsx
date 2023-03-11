@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import sampleTickets from '../../data/ticketData';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -9,9 +8,10 @@ import Paper from '@mui/material/Paper';
 import TableBody from '@mui/material/TableBody';
 import TablePagination from '@mui/material/TablePagination';
 import TablePaginationActions from '../TablePaginationActions';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-
-const loggedInUser = 1;
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTicket } from '../../features/tickets/ticketsSlice';
 
 const tableHeaders = [
     "Ticket #",
@@ -24,11 +24,14 @@ const tableHeaders = [
 ];
 
 const TicketsTable = (props) => {
+  // Store
+  const { tickets } = useSelector((state) => state.tickets);
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const emptyRows = 
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sampleTickets.length) : 0
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -39,6 +42,9 @@ const TicketsTable = (props) => {
     setPage(0);
   }
 
+  const handleSelectTicket = (event, ticketId) => {
+    dispatch(selectTicket(ticketId));
+  }
   return (
     <Paper sx={{ height: '90%', width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ height: '80%' }}>
@@ -52,18 +58,24 @@ const TicketsTable = (props) => {
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-                ? sampleTickets.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : sampleTickets
+                ? tickets.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : tickets
               ).map((row, key) => (
                 <TableRow key={key}>
                   <TableCell>
-                    {row.id}
+                    <Link 
+                      sx={{ cursor: 'pointer' }} 
+                      underline='hover' 
+                      onClick={event => handleSelectTicket(event, row._id)} 
+                    >
+                      ...{row._id.slice(-6)}
+                    </Link>
                   </TableCell>
                   <TableCell>
                     {row.summary}
                   </TableCell>
                   <TableCell>
-                    {row.type}
+                    {row.ticketType}
                   </TableCell>
                   <TableCell>
                     {row.priority}
@@ -72,13 +84,13 @@ const TicketsTable = (props) => {
                     {row.status}
                   </TableCell>
                   <TableCell>
-                    {row.dueDate.toDateString()}
+                    {row.dueDate}
                   </TableCell>
                   <TableCell>
-                    {row.creatorUserId === loggedInUser 
+                  import { selectTicket } from '../../features/tickets/ticketsSlice';
                       ? "TODO: edit update status delete"
                       : "TODO: edit update status"
-                    }
+                    } */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -94,7 +106,7 @@ const TicketsTable = (props) => {
             sx={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 25px'}}
             rowsPerPageOptions={[5,10, { label: 'All', value: -1}]}
             colSpan={4}
-            count={sampleTickets.length}
+            count={tickets.length}
             rowsPerPage={rowsPerPage}
             page={page}
             SelectProps={{

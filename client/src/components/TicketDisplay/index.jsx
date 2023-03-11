@@ -19,11 +19,11 @@ function allyProps(index) {
 const TicketDisplay = (props) => {
     const { selectedTicket, projectId } = props;
     const project = useSelector((state) => state.projects.projects.find(project => project._id === projectId ));
-    const ticket = project.tickets.find((ticket) => ticket._id === selectedTicket);
+    const ticket = project?.tickets.find((ticket) => ticket._id === selectedTicket);
 
     useEffect(() => {
-        console.log(ticket);
-    }, []);
+        console.log(projectId);
+    }, [projectId]);
 
     const [value, setValue] = useState(0);
 

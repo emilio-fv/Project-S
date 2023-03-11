@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/tickets';
+const API_URL = 'http://localhost:8000/api/tickets/';
 
 // Create Ticket
 const createTicket = async (ticketData) => {
     const response = await axios.post(API_URL + 'create', ticketData, { withCredentials: true });
-    console.log(response.data.newTicket);
     return response.data.newTicket;
 };
 
@@ -17,7 +16,7 @@ const getManyTickets = async (ids) => {
 
 // Update Ticket
 const updateTicket = async (id, ticketData) => {
-    const response = await axios.post(API_URL + id + '/update', ticketData, { withCredentials: true });
+    const response = await axios.post(API_URL + id + 'update', ticketData, { withCredentials: true });
     return response.data;
 };
 

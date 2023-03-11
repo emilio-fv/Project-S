@@ -10,7 +10,7 @@ const ticketSchema = new mongoose.Schema({
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
-        required: [true, "Project must be selected"]
+        required: [true, "Project is required"]
     },
     summary: {
         type: String,

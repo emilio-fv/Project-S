@@ -45,7 +45,7 @@ const ProjectTicketsTable = (props) => {
     // Select Ticket
     dispatch(selectTicket(ticketId));
   }
-
+  
   return (
     <Paper sx={{ height: '90%', width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ height: '84%' }}>
@@ -64,7 +64,13 @@ const ProjectTicketsTable = (props) => {
               ).map((row, key) => (
                 <TableRow key={key}>
                   <TableCell>
-                    <Link sx={{ cursor: 'pointer' }} underline='hover' onClick={event => handleSelectTicket(event, row._id)} >...{row._id.slice(-6)}</Link>
+                    <Link 
+                      sx={{ cursor: 'pointer' }} 
+                      underline='hover' 
+                      onClick={event => handleSelectTicket(event, row._id)} 
+                    >
+                      ...{row._id.slice(-6)}
+                    </Link>
                   </TableCell>
                   <TableCell>
                     {row.summary}
