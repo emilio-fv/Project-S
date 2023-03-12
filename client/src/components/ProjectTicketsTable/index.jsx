@@ -6,9 +6,11 @@ import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import sampleTickets from '../../data/ticketData';
 import TablePaginationActions from '../TablePaginationActions';
 import TablePagination from '@mui/material/TablePagination';
+import Link from '@mui/material/Link';
+import { selectTicket } from '../../features/tickets/ticketsSlice';
+import { useDispatch } from 'react-redux';
 
 const tableHeaders = [
   "Id",
@@ -21,11 +23,13 @@ const tableHeaders = [
 ];
 
 const ProjectTicketsTable = (props) => {
+  const { tickets } = props;
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  
   const emptyRows = 
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sampleTickets.length) : 0
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -36,6 +40,12 @@ const ProjectTicketsTable = (props) => {
       setPage(0);
   }
 
+  // Handle Ticket Select
+  const handleSelectTicket = (event, ticketId) => {
+    // Select Ticket
+    dispatch(selectTicket(ticketId));
+  }
+  
   return (
     <Paper sx={{ height: '90%', width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ height: '84%' }}>
@@ -49,12 +59,18 @@ const ProjectTicketsTable = (props) => {
           </TableHead>
           <TableBody>
             {( rowsPerPage > 0 
-                ? sampleTickets.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : sampleTickets
+                ? tickets.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : tickets
               ).map((row, key) => (
                 <TableRow key={key}>
                   <TableCell>
-                    {row.id}
+                    <Link 
+                      sx={{ cursor: 'pointer' }} 
+                      underline='hover' 
+                      onClick={event => handleSelectTicket(event, row._id)} 
+                    >
+                      ...{row._id.slice(-6)}
+                    </Link>
                   </TableCell>
                   <TableCell>
                     {row.summary}
@@ -66,13 +82,13 @@ const ProjectTicketsTable = (props) => {
                     {row.priority}
                   </TableCell>
                   <TableCell>
-                    {row.type}
+                    {row.ticketType}
                   </TableCell>
                   <TableCell>
-                    {row.assignedUsers}
+                    {row.assignedUser.firstName} {row.assignedUser.lastName}
                   </TableCell>
                   <TableCell>
-                    {row.dueDate.toDateString()}
+                    {row.dueDate}
                   </TableCell>
                 </TableRow>
               ))}
@@ -88,7 +104,7 @@ const ProjectTicketsTable = (props) => {
         sx={{ display: 'flex', justifyContent: 'flex-end', margin: '0px 25px'}}
         rowsPerPageOptions={[5,10, { label: 'All', value: -1}]}
         colSpan={4}
-        count={sampleTickets.length}
+        count={tickets.length}
         rowsPerPage={rowsPerPage}
         page={page}
         SelectProps={{

@@ -5,7 +5,6 @@ const {
     getUserByEmail,
     getUserById,
     updateUserById,
-    updateMultipleUsersById,
     deleteUserById
 } = require('../services/user.services');
 const jwt = require('jsonwebtoken');
@@ -33,7 +32,8 @@ const handleRegisterUser = async (req, res) => {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 admin: newUser.admin,
-                projects: newUser.projects
+                projects: newUser.projects,
+                tickets: newUser.tickets
             });
         } else {
             // If Email Already Registered
@@ -42,7 +42,7 @@ const handleRegisterUser = async (req, res) => {
     } catch (error) {
         return res.status(400).json(error);
     }
-}
+};
 
 // Login User
 const handleLoginUser = async (req, res) => {
@@ -72,12 +72,13 @@ const handleLoginUser = async (req, res) => {
             firstName: userWithSameEmail.firstName,
             lastName: userWithSameEmail.lastName,
             admin: userWithSameEmail.admin,
-            projects: userWithSameEmail.projects
+            projects: userWithSameEmail.projects,
+            tickets: userWithSameEmail.tickets
         });
     } catch (error) {
         return res.status(400).json(error);
     }
-}
+};
 
 // Logout User
 const handleLogoutUser = async (req, res) => {
@@ -86,7 +87,7 @@ const handleLogoutUser = async (req, res) => {
     res.clearCookie("userToken");
     // Return Status
     res.sendStatus(200);
-}
+};
 
 // Check If User Logged In
 const handleLoggedInUserCheck = async (req, res) => {
@@ -106,12 +107,13 @@ const handleLoggedInUserCheck = async (req, res) => {
             firstName: foundUser.firstName,
             lastName: foundUser.lastName,
             admin: foundUser.admin,
-            projects: foundUser.projects
+            projects: foundUser.projects,
+            tickets: foundUser.tickets
         });
     } catch (error) {
         return res.status(400).json(error);
     }
-}
+};
 
 // Get All Users
 const handleGetAllUsers = async (req, res) => {
@@ -119,14 +121,14 @@ const handleGetAllUsers = async (req, res) => {
     try {
         // Get All Users
         const response = await getAllUsers();
-        
         let allUsers = [];
         for (let row of response) {
             allUsers.push({
                 _id: row._id,
                 firstName: row.firstName,
                 lastName: row.lastName,
-                projects: row.projects
+                projects: row.projects,
+                tickets: row.tickets
             })
         }
         // Return Response With Users Data
@@ -134,7 +136,7 @@ const handleGetAllUsers = async (req, res) => {
     } catch (error) {
         return res.status(400).json(error);
     }
-}
+};
 
 // Get User By Id
 const handleGetUserById = async (req, res) => {
@@ -145,7 +147,7 @@ const handleGetUserById = async (req, res) => {
     } catch (error) {
         return res.status(400).json(error);
     }
-}
+};
 
 // Update User By Id
 const handleUpdateUserById = async (req, res) => {
@@ -156,18 +158,7 @@ const handleUpdateUserById = async (req, res) => {
     } catch (error) {
         return res.status(400).json(error);
     }
-}
-
-// Update Multiple Users By Id
-const handleUpdateMultipleUsersById = async (req, res) => {
-    console.log("controller: handleUpdateMultipleUsersById req.body: ", req.body);
-    try {
-        const updatedUsers = await updateMultipleUsersById(req.body.ids, req.body.projectId);
-        return res.json(updatedUsers);
-    } catch (error) {
-        return res.status(400).json(error);
-    }
-}
+};
 
 // Delete User
 const handleDeleteUserById = async (req, res) => {
@@ -180,7 +171,7 @@ const handleDeleteUserById = async (req, res) => {
     } catch (error) {
         return res.status(400).json(error);
     }
-}
+};
 
 // Exports
 module.exports = {
@@ -191,6 +182,5 @@ module.exports = {
     handleLogoutUser: handleLogoutUser,
     handleRegisterUser: handleRegisterUser,
     handleUpdateUserById: handleUpdateUserById,
-    handleUpdateMultipleUsersById: handleUpdateMultipleUsersById,
     handleGetUserById: handleGetUserById
-}
+};

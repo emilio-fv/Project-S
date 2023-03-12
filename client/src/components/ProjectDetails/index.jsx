@@ -28,7 +28,7 @@ const ProjectDetails = (props) => {
             </Box>
             <Box sx={{ flex: 2 }}>
                 <Typography variant='h6' component='h2'>Tickets</Typography>
-                <ProjectTicketsTable />
+                <ProjectTicketsTable tickets={project.tickets}/>
             </Box>
         </Box>
     )

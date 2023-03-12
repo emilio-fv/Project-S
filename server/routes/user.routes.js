@@ -9,7 +9,6 @@ const {
     handleLogoutUser,
     handleRegisterUser,
     handleUpdateUserById,
-    handleUpdateMultipleUsersById,
     handleGetUserById
 } = require('../controllers/user.controller');
 
@@ -17,15 +16,14 @@ const {
 const router = express.Router();
 
 // User API Routes
-router.get('/allUsers', authenticate, handleGetAllUsers);
-router.get('/:id/user', authenticate, handleGetUserById);
-router.post('/register', handleRegisterUser);
-router.post('/login', handleLoginUser);
-router.get('/logout', handleLogoutUser);
-router.get('/loggedInCheck', handleLoggedInUserCheck);
-router.post('/:id/update', handleUpdateUserById);
-router.post('/updateProjects', handleUpdateMultipleUsersById); 
-router.delete('/:id/delete', authenticate, handleDeleteUserById);
+router.get('/allUsers', authenticate, handleGetAllUsers); // ✅
+router.get('/:id/user', authenticate, handleGetUserById); // ✅
+router.post('/register', handleRegisterUser); // ✅
+router.post('/login', handleLoginUser); // ✅
+router.get('/logout', handleLogoutUser); // ✅
+router.get('/loggedInCheck', handleLoggedInUserCheck); // ✅
+router.post('/:id/update', authenticate, handleUpdateUserById); // ✅
+router.delete('/:id/delete', authenticate, handleDeleteUserById); // ✅
 
 // Exports
 module.exports = { userRouter: router };

@@ -1,6 +1,7 @@
 // Import Model Methods
 const {
     createProject,
+    getOneProject,
     getManyProjects,
     getAllProjects,
     updateProjectById,
@@ -20,6 +21,16 @@ const handleCreateProject = async (req, res) => {
     }
 };
 
+// Get One Project
+const handleGetOneProject = async (req, res) => {
+    console.log("controller: handleGetOneProject req.params: ", req.params);
+    try {
+        const response = await getOneProject(req.params.id);
+        return res.json(response);
+    } catch (error) {
+        return res.status(400).json(error);
+    }
+}
 // Get Many Projects 
 const handleGetManyProjects = async (req, res) => {
     console.log("controller: handleGetManyProjects req.query: ", req.query);
@@ -67,6 +78,7 @@ const handleDeleteProjectById = async (req, res) => {
 // Exports
 module.exports = {
     handleCreateProject: handleCreateProject,
+    handleGetOneProject: handleGetOneProject,
     handleGetManyProjects: handleGetManyProjects,
     handleGetAllProjects: handleGetAllProjects,
     handleUpdateProjectById: handleUpdateProjectById,

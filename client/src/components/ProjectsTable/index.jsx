@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchManyProjects, reset } from '../../features/projects/projectsSlice';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import { loggedInCheck } from '../../features/auth/authSlice';
 
 const tableHeaders = [
 	"Project Name",
@@ -23,14 +24,16 @@ const tableHeaders = [
 ]
 
 const ProjectsTable = (props) => {
+    // Store
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.auth.user);
     const { projects, status } = useSelector((state) => state.projects);
-    const personnel = useSelector((state) => state.personnel.personnel);
 
+    // Table
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
+    // Fetch project data
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchManyProjects({ ids: currentUser.projects }))
@@ -72,15 +75,20 @@ const ProjectsTable = (props) => {
                         {row.description?.substring(0,75)}...
                     </TableCell>
                     <TableCell>
-                        { (currentUser._id === row.projectManager?.userId)
+                        { (currentUser._id === row.projectManager._id)
                             ? "Project Manager"
                             : "Developer"
                         }
                     </TableCell>
                     <TableCell sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-                        {personnel.map((person) => (
-                            row.team?.includes(person._id) ? <Typography>{person.firstName} {person.lastName}</Typography> : null
-                        ))}
+                        { (currentUser._id !== row.projectManager._id)
+                            ? <Typography>{row.projectManager.firstName} {row.projectManager.lastName}</Typography>
+                            : null
+                        }
+
+                        { row.team.filter((person) => person._id !== currentUser._id ).map((person) =>
+                                <Typography>{person.firstName} {person.lastName}</Typography>
+                        )}
                     </TableCell>
                 </TableRow>
             ))}

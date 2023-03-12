@@ -12,14 +12,13 @@ const projectSchema = new mongoose.Schema({
         required: [true, "Description is required."]
     },
     projectManager: {
-        type: {
-            userId: String,
-            _id: false
-        },
-        required: [true, "Project manager is required."]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, "Project manager is required."]    
     },
     team: {
-        type: [String],
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
         validate: {
             validator: function(val) {
                 return val.length != 0;
@@ -27,9 +26,10 @@ const projectSchema = new mongoose.Schema({
             message: "Must select at least 1 team member."
         }
     },
-    tickets: {
-        type: [String]
-    }
+    tickets: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ticket'
+    }]
 }, { timestamps: true });
 
 // Create Project Model

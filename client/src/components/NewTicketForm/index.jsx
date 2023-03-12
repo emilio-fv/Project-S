@@ -8,24 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import StyledButton from '../Button';
-import sampleProjects from '../../data/projectData';
+import FormHelperText from '@mui/material/FormHelperText';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers';
-
-function createName(id, name) {
-  return { id, name }
-}
-// Sample Team Members Data
-const sampleNames = [
-    createName(1, 'Oliver Hansen'),
-    createName(2, 'Kelly Snyder'),
-    createName(3, 'Van Henry'),
-    createName(4, 'April Tucker'),
-    createName(5, 'Ralph Hubbard'),
-    createName(6, 'Omar Alexander'),
-    createName(7, 'Carlos Abbott')
-];
+import { useSelector } from 'react-redux';
 
 const modalStyle = {
     position: 'absolute',
@@ -54,36 +41,9 @@ const priorityLevels = [
 ]
 
 const NewTicketForm = (props) => {
-  const [ticketData, setTicketData] = useState({
-    type: '',
-    projectId: '',
-    summary: '',
-    description: '',
-    priority: '',
-    dueDate: null,
-    assignedUserId: ''
-  })
-
-  const handleChange = (event) => {
-    setTicketData({
-      ...ticketData,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  const handleSubmit = (event) => {
-    console.log(ticketData);
-    props.handleClose();
-    setTicketData({
-      type: '',
-      projectId: '',
-      summary: '',
-      description: '',
-      priority: '',
-      dueDate: null,
-      assignedUserId: ''
-    })
-  }
+  const projects = useSelector((state) => state.projects.projects);
+  const personnel = useSelector((state) => state.personnel.personnel);
+  const {ticketFormData, handleChange, handleDatePicker, handleSubmit, errorMessages} = props;
 
   return (
       <Modal
@@ -100,38 +60,65 @@ const NewTicketForm = (props) => {
                 <FormControl fullWidth> 
                   <InputLabel id="select-ticket-type">Ticket Type</InputLabel>
                   <Select
-                    name="type"
+                    name="ticketType"
                     labelId="select-ticket-type"
                     id="select-ticket"
-                    value={ticketData.type}
+                    value={ticketFormData.ticketType}
                     label="Ticket Type"
                     onChange={event => handleChange(event)}
+                    error={errorMessages.ticketType?.message ? true : false}
                   >
                     {ticketTypes.map((item,key) => (
                       <MenuItem key={key} value={item.value}>{item.text}</MenuItem>
                     ))}
                   </Select>
+                  {errorMessages.ticketType?.message 
+                    ? <FormHelperText error>{ errorMessages.ticketType?.message }</FormHelperText>
+                    : null
+                  }
                 </FormControl>
                 {/* Project ✅*/}
                 <FormControl fullWidth>
                   <InputLabel id='select-project'>Project</InputLabel>
                   <Select
-                    name="projectId"
+                    name="project"
                     labelId="select-project"
                     id="project-select"
-                    value={ticketData.projectId}
+                    value={ticketFormData.project}
                     label="Project"
                     onChange={event => handleChange(event)}
+                    error={errorMessages.project?.message ? true : false}
                   >
-                    {sampleProjects.map((item, key) => (
-                      <MenuItem key={key} value={item.id}>{item.name}</MenuItem>
+                    {projects.map((item, key) => (
+                      <MenuItem key={key} value={item._id}>{item.name}</MenuItem>
                     ))}
                   </Select>
+                  {errorMessages.project?.message 
+                    ? <FormHelperText error>{ errorMessages.project?.message }</FormHelperText>
+                    : null
+                  }
                 </FormControl>
                 {/* Summary ✅*/}
-                <TextField name="summary" label="Summary" variant="outlined" onChange={event => handleChange(event)} fullWidth/>
+                <TextField 
+                  name="summary" 
+                  label="Summary" 
+                  variant="outlined" 
+                  onChange={event => handleChange(event)} 
+                  fullWidth 
+                  error={errorMessages.summary?.message ? true : false }
+                  helperText={errorMessages.summary?.message ? errorMessages.summary?.message : null }
+                />
                 {/* Description ✅*/}
-                <TextField name="description" label="Description" variant="outlined" multiline onChange={event => handleChange(event)} fullWidth/>
+                <TextField 
+                  name="description" 
+                  label="Description" 
+                  variant="outlined" 
+                  multiline 
+                  onChange={event => handleChange(event)} 
+                  fullWidth
+                  error={errorMessages.description?.message ? true : false }
+                  helperText={errorMessages.description?.message ? errorMessages.description?.message : null }
+                />
                 {/* Priority Level ✅*/}
                 <FormControl fullWidth>
                   <InputLabel id='select-priority-level'>Priority</InputLabel>
@@ -139,40 +126,50 @@ const NewTicketForm = (props) => {
                     name="priority"
                     labelId="select-priority-level"
                     id="priority-level"
-                    value={ticketData.priority}
+                    value={ticketFormData.priority}
                     label="Priority"
-                    onChange={event => handleChange(event)} 
+                    onChange={event => handleChange(event)}
+                    error={errorMessages.priority?.message ? true : false}
                   >
                     {priorityLevels.map((item, key) => (
                       <MenuItem key={key} value={item.value}>{item.text}</MenuItem>
                     ))}
                   </Select>
+                  {errorMessages.priority?.message 
+                    ? <FormHelperText error>{ errorMessages.priority?.message }</FormHelperText>
+                    : null
+                  }
                 </FormControl>
                 {/* Due Date ✅*/}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker 
                     label="Due Date"
                     name="dueDate"
-                    value={ticketData.dueDate}
-                    onChange={(newValue) => handleChange({ target: { name: "dueDate", value: newValue} })}
-                    renderInput={(params) => <TextField {...params} />}
+                    value={ticketFormData.dueDate}
+                    onChange={(newValue) => handleDatePicker(newValue)}
+                    renderInput={(params) => <TextField {...params} error={errorMessages.dueDate?.message ? true : false} helperText={errorMessages.dueDate?.message ? errorMessages.dueDate?.message : null }/>}
                   />
                 </LocalizationProvider>
-                {/* Assigned Team Member */}
+                {/* Assigned Team Member ✅*/}
                 <FormControl fullWidth>
                   <InputLabel id='select-team-member'>Assigned Team Member</InputLabel>
                   <Select
-                    name="assignedUserId"
+                    name="assignedUser"
                     labelId='select-team-member'
                     id='assigned-team-member'
-                    value={ticketData.assignedUserId}
+                    value={ticketFormData.assignedUser}
                     label="Assigned Team Member"
                     onChange={event => handleChange(event)}
+                    error={errorMessages.assignedUser?.message ? true : false}
                   >
-                    {sampleNames.map((item, key) => (
-                      <MenuItem key={key} value={item.id}>{item.name}</MenuItem>
+                    {personnel.map((item, key) => (
+                      <MenuItem key={key} value={item._id}>{item.firstName} {item.lastName}</MenuItem>
                     ))}
                   </Select>
+                  {errorMessages.assignedUser?.message 
+                    ? <FormHelperText error>{ errorMessages.assignedUser?.message }</FormHelperText>
+                    : null
+                  }
                 </FormControl>
                 <StyledButton clickAction={event => handleSubmit(event)} text={"Add Ticket"}/>
               </Box>

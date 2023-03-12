@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import StyledModal from '../components/NewProjectForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProject } from '../features/projects/projectsSlice';
+import { resetSelected } from '../features/tickets/ticketsSlice';
 
 const Dashboard = (props) => {
   // Modal 
@@ -25,10 +26,15 @@ const Dashboard = (props) => {
   const [projectFormData, setProjectFormData] = useState({
     name: '',
     description: '',
-    projectManager: { userId: currentUser._id}
+    projectManager: currentUser._id
   })
   const [team, setTeam] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
+
+  // Reset Selected Ticket
+  useEffect(() => {
+    dispatch(resetSelected());
+  }, [])
 
   // Form Error Messages, Reset Form Data
   useEffect(() => {
@@ -40,7 +46,7 @@ const Dashboard = (props) => {
       setProjectFormData({
         name: '',
         description: '',
-        projectManager: { userId: currentUser._id}
+        projectManager: currentUser._id
       });
       setTeam([]);
       handleClose();

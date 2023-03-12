@@ -39,10 +39,14 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    // TODO: Projects
-    projects: {
-        type: [String]
-    }
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project'
+    }],
+    tickets: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ticket'
+    }]
 }, { timestamps: true });
 
 // Confirm Password Virtual Field
