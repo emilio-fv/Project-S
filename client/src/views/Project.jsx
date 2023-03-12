@@ -23,8 +23,9 @@ const Project = (props) => {
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.projects.find(project => project._id === projectId));
   const currentUser = useSelector((state) => state.auth.user);
-  const { selected: selectedTicket, status: ticketStatus, error } = useSelector((state) => state.tickets);
-
+  const { selected: selectedTicketId, status: ticketStatus, error } = useSelector((state) => state.tickets);
+  // Select ticket from project
+  const selectedTicket = project.tickets.find((ticket) => ticket._id === selectedTicketId);
   // Ticket Form Data
   const [ticketFormData, setTicketFormData] = useState({
     ticketType: '',
@@ -40,7 +41,6 @@ const Project = (props) => {
   // Form Error Messages, Reset Form Data
   useEffect(() => {
     if (ticketStatus === 'failed') {
-      console.log(error);
       setErrorMessages(error);
     }
 
@@ -80,7 +80,6 @@ const Project = (props) => {
   // New Ticket Form Submit
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(ticketFormData);
     dispatch(createTicket(ticketFormData));
   }
 
@@ -98,7 +97,7 @@ const Project = (props) => {
         />
         <SecondaryDisplay 
           displayTitle={""} 
-          display={<TicketDisplay selectedTicket={selectedTicket} projectId={projectId} />}
+          display={<TicketDisplay selectedTicket={selectedTicket} />}
         />
       </Box>
       <NewTicketForm 
