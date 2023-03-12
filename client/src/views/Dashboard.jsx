@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import StyledModal from '../components/NewProjectForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProject } from '../features/projects/projectsSlice';
-import { resetSelected } from '../features/tickets/ticketsSlice';
+import { resetSelected, getManyTickets } from '../features/tickets/ticketsSlice';
 
 const Dashboard = (props) => {
   // Modal 
@@ -31,8 +31,9 @@ const Dashboard = (props) => {
   const [team, setTeam] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
 
-  // Reset Selected Ticket
+  // Fetch tickets, Reset Selected Ticket
   useEffect(() => {
+    dispatch(getManyTickets({ ids: currentUser.tickets}));
     dispatch(resetSelected());
   }, [])
 
