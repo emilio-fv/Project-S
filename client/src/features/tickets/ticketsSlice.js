@@ -25,8 +25,8 @@ export const getManyTickets = createAsyncThunk('tickets/getMany', async (ids) =>
 });
 
 // Update Ticket
-export const updateTicket = createAsyncThunk('tickets/updateOne', async (id, ticketData) => {
-    return await ticketsService.updateTicket(id, ticketData);
+export const updateTicket = createAsyncThunk('tickets/updateOne', async (ticketData) => {
+    return await ticketsService.updateTicket(ticketData);
 });
 
 // Delete Ticket

@@ -24,8 +24,10 @@ const Project = (props) => {
   const project = useSelector((state) => state.projects.projects.find(project => project._id === projectId));
   const currentUser = useSelector((state) => state.auth.user);
   const { selected: selectedTicketId, status: ticketStatus, error } = useSelector((state) => state.tickets);
+
   // Select ticket from project
   const selectedTicket = project.tickets.find((ticket) => ticket._id === selectedTicketId);
+
   // Ticket Form Data
   const [ticketFormData, setTicketFormData] = useState({
     ticketType: '',

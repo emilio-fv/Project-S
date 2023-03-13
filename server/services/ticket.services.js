@@ -54,6 +54,7 @@ const getAllTickets = async () => {
 const updateTicketById = async (id, data) => {
     console.log("service: updateTicketById");
     const updatedTicket = await Ticket.findByIdAndUpdate({ _id: id }, data, { new: true });
+    console.log(updatedTicket);
     return updatedTicket;
 }
 
