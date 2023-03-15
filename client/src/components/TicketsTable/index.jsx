@@ -12,6 +12,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTicket } from '../../features/tickets/ticketsSlice';
+import { getManyComments } from '../../features/comments/commentsSlice';
 
 const tableHeaders = [
     "Ticket #",
@@ -19,8 +20,7 @@ const tableHeaders = [
     "Type",
     "Priority",
     "Status",
-    "Due Date",
-    "Actions"
+    "Due Date"
 ];
 
 const TicketsTable = (props) => {
@@ -44,6 +44,8 @@ const TicketsTable = (props) => {
 
   const handleSelectTicket = (event, ticketId) => {
     dispatch(selectTicket(ticketId));
+    const selectedTicket = tickets.find((ticket) => ticket._id === ticketId)
+    dispatch(getManyComments({ ids: selectedTicket.comments}));
   }
   return (
     <Paper sx={{ height: '90%', width: '100%', overflow: 'hidden' }}>
@@ -85,12 +87,6 @@ const TicketsTable = (props) => {
                   </TableCell>
                   <TableCell>
                     {row.dueDate}
-                  </TableCell>
-                  <TableCell>
-                  import { selectTicket } from '../../features/tickets/ticketsSlice';
-                      ? "TODO: edit update status delete"
-                      : "TODO: edit update status"
-                    } */}
                   </TableCell>
                 </TableRow>
               ))}

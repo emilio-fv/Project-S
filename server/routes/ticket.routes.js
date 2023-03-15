@@ -13,7 +13,7 @@ const {
 // Create Router
 const router = express.Router();
 
-// Ticket API Routes.
+// Ticket API Routes
 router.post('/create', handleCreateTicket); // ✅
 router.get('/:id/ticket', handleGetOneTicket); // ✅
 router.get('/many', handleGetManyTickets); // ✅

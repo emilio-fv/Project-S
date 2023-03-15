@@ -53,6 +53,7 @@ const TicketDisplay = (props) => {
     const [edit, setEdit] = useState(false);
     const { status: ticketStatus, error } = useSelector((state) => state.tickets);
     const [updatedTicket, setUpdatedTicket] = useState({});
+    const { comments } = useSelector((state) => state.comments);
 
     // Handle Edit Icon Click
     const handleEditClick = (event) => {
@@ -240,15 +241,15 @@ const TicketDisplay = (props) => {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleTabChanges} aria-label="Comments & History Tabs">
                             <Tab label="Comments" {...allyProps(0)} />
-                            <Tab label="History" {...allyProps(1)} />
+                            {/* <Tab label="History" {...allyProps(1)} /> */}
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <CommentsLog />
+                        <CommentsLog comments={comments}/>
                     </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    {/* <TabPanel value={value} index={1}>
                         <HistoryLog />
-                    </TabPanel>
+                    </TabPanel> */}
                 </Box>
             </Box>
         )
