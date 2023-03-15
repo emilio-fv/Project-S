@@ -9,8 +9,8 @@ const createTicket = async (data) => {
     const newTicket = await Ticket.create(data);
     
     // Update project's tickets [] & assigned users' tickets []
-    let projectId = newTicket.project;
-    let userId = newTicket.assignedUser;
+    const projectId = newTicket.project;
+    const userId = newTicket.assignedUser;
 
     const updatedProject = await Project.findByIdAndUpdate({ _id: projectId }, { $push: { tickets: newTicket._id }});
 

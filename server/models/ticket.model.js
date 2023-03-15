@@ -43,12 +43,10 @@ const ticketSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, "Must assign to a team member."]
     },
-    // comments: {
-        // type: [String]
-    // },
-    // history: {
-        // type: [String]
-    // }
+    comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Comment'
+    }]
 }, { timestamps: true })
 
 // Create Ticket Model

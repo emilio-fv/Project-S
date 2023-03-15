@@ -1,4 +1,4 @@
-// Import Model Methods
+// Import Ticket Services
 const {
     createTicket,
     getOneTicket,
@@ -82,4 +82,4 @@ module.exports = {
     handleGetAllTickets: handleGetAllTickets,
     handleUpdateTicketById: handleUpdateTicketById,
     handleDeleteTicketById: handleDeleteTicketById
-}
+};

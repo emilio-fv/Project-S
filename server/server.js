@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const { userRouter } = require('./routes/user.routes');
 const { projectRouter } = require('./routes/project.routes');
 const { ticketRouter } = require('./routes/ticket.routes');
+const { commentRouter } = require('./routes/comment.routes');
 
 // Set Port #
 const port = 8000;
@@ -31,6 +32,7 @@ app.use(express.urlencoded({
 app.use('/api/users', userRouter);
 app.use('/api/projects', projectRouter);
 app.use('/api/tickets', ticketRouter);
+app.use('/api/comments', commentRouter);
 
 // Initialize Server
 app.listen(port, () => {
