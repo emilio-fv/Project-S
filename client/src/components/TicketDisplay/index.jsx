@@ -159,7 +159,6 @@ const TicketDisplay = (props) => {
                                         <Select
                                             size='small'
                                             name="status"
-                                            labelId="select-status"
                                             id="status"
                                             displayEmpty
                                             value={updatedTicket.status}
