@@ -76,6 +76,8 @@ export const ticketsSlice = createSlice({
             })
             .addCase(updateTicket.fulfilled, (state, action) => {
                 state.status = 'idle'
+                let index = state.tickets.findIndex((ticket) => ticket._id === action.payload._id)
+                state.tickets[index] = action.payload
             })
             .addCase(deleteTicket.fulfilled, (state, action) => {
                 state.status = 'idle'

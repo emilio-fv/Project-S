@@ -214,7 +214,7 @@ const TicketDisplay = (props) => {
                     :   <Box sx={{ flex: 2 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: 5}}>
                                 <Typography variant='p'>{selectedTicket.ticketType}</Typography>
-                                {selectedTicket.assignedUser._id === currentUser._id 
+                                {selectedTicket.assignedUser._id === currentUser._id || selectedTicket.assignedUser === currentUser._id
                                     ? <IconButton onClick={(event) => handleEditClick()}>
                                         <EditIcon fontSize="small"/>
                                     </IconButton>
