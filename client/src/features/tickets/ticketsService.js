@@ -15,8 +15,9 @@ const getManyTickets = async (ids) => {
 };
 
 // Update Ticket
-const updateTicket = async (id, ticketData) => {
-    const response = await axios.post(API_URL + id + 'update', ticketData, { withCredentials: true });
+const updateTicket = async (ticketData) => {
+    console.log(ticketData);
+    const response = await axios.put(API_URL + ticketData._id + '/update', ticketData, { withCredentials: true });
     return response.data;
 };
 

@@ -142,7 +142,8 @@ const NewTicketForm = (props) => {
                 </FormControl>
                 {/* Due Date ✅*/}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker 
+                  <DatePicker
+                    disablePast
                     label="Due Date"
                     name="dueDate"
                     value={ticketFormData.dueDate}

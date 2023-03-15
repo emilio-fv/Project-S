@@ -18,7 +18,7 @@ router.post('/create', handleCreateTicket); // ✅
 router.get('/:id/ticket', handleGetOneTicket); // ✅
 router.get('/many', handleGetManyTickets); // ✅
 router.get('/all', handleGetAllTickets); // ✅
-router.post('/:id/update', handleUpdateTicketById); // ✅
+router.put('/:id/update', handleUpdateTicketById); // ✅
 router.delete('/:id', handleDeleteTicketById); // ✅
 
 // Exports

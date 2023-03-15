@@ -25,8 +25,8 @@ export const getManyTickets = createAsyncThunk('tickets/getMany', async (ids) =>
 });
 
 // Update Ticket
-export const updateTicket = createAsyncThunk('tickets/updateOne', async (id, ticketData) => {
-    return await ticketsService.updateTicket(id, ticketData);
+export const updateTicket = createAsyncThunk('tickets/updateOne', async (ticketData) => {
+    return await ticketsService.updateTicket(ticketData);
 });
 
 // Delete Ticket
@@ -76,6 +76,8 @@ export const ticketsSlice = createSlice({
             })
             .addCase(updateTicket.fulfilled, (state, action) => {
                 state.status = 'idle'
+                let index = state.tickets.findIndex((ticket) => ticket._id === action.payload._id)
+                state.tickets[index] = action.payload
             })
             .addCase(deleteTicket.fulfilled, (state, action) => {
                 state.status = 'idle'

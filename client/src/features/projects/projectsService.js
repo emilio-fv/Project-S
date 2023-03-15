@@ -17,7 +17,6 @@ const fetchManyProjects = async (ids) => {
 // Get One Project
 const fetchOneProject = async (id) => {
     const response = await axios.get(API_URL + id + '/one', { withCredentials: true });
-    console.log(response.data);
     return response.data;
 }
 
