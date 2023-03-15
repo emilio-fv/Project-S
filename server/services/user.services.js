@@ -32,7 +32,7 @@ const getUserByEmail = async (email) => {
 // Update User By Id
 const updateUserById = async (id, data) => {
     console.log("service: updateUserById");
-    const updatedUser = await User.findByIdAndUpdate({ _id: id }, data);
+    const updatedUser = await User.findByIdAndUpdate({ _id: id }, data, { new: true, runValidators: true });
     return updatedUser;
 };
 

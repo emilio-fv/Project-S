@@ -127,6 +127,9 @@ const handleGetAllUsers = async (req, res) => {
                 _id: row._id,
                 firstName: row.firstName,
                 lastName: row.lastName,
+                phone: row.phone,
+                email: row.email,
+                admin: row.admin,
                 projects: row.projects,
                 tickets: row.tickets
             })
@@ -154,7 +157,16 @@ const handleUpdateUserById = async (req, res) => {
     console.log(`controller: handleUpdateUserById req.params: ${req.params.id} req.body: ${req.body}`);
     try {
         const updatedUser = await updateUserById(req.params.id, req.body);
-        return res.json(updatedUser);
+        return res.json({
+            _id: updatedUser._id,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            phone: updatedUser.phone,
+            email: updatedUser.email,
+            admin: updatedUser.admin,
+            projects: updatedUser.projects,
+            tickets: updatedUser.tickets
+        });
     } catch (error) {
         return res.status(400).json(error);
     }

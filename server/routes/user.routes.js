@@ -22,7 +22,7 @@ router.post('/register', handleRegisterUser); // ✅
 router.post('/login', handleLoginUser); // ✅
 router.get('/logout', handleLogoutUser); // ✅
 router.get('/loggedInCheck', handleLoggedInUserCheck); // ✅
-router.post('/:id/update', authenticate, handleUpdateUserById); // ✅
+router.patch('/:id/update', authenticate, handleUpdateUserById); // ✅
 router.delete('/:id/delete', authenticate, handleDeleteUserById); // ✅
 
 // Exports

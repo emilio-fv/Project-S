@@ -8,8 +8,16 @@ const fetchAllPersonnel = async () => {
     return response.data;
 };
 
+// Update Personnel
+const updatePersonnel = async (userData) => {
+    const response = await axios.patch(API_URL + userData._id + '/update', userData, { withCredentials: true });
+    console.log(response.data);
+    return response.data;
+};
+
 const personnelService = {
     fetchAllPersonnel,
+    updatePersonnel
 };
 
 export default personnelService;
