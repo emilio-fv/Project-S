@@ -127,6 +127,9 @@ const handleGetAllUsers = async (req, res) => {
                 _id: row._id,
                 firstName: row.firstName,
                 lastName: row.lastName,
+                phone: row.phone,
+                email: row.email,
+                admin: row.admin,
                 projects: row.projects,
                 tickets: row.tickets
             })
