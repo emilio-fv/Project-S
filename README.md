@@ -1,5 +1,5 @@
 # Project-S
-> A MERN-based project management application and bug tracking web application designed for seamless and efficient collaboration between software developer teams.
+> A MERN-based project management and bug tracking web application designed for software developer teams.
 <!-- > Live demo [_here_](https://www.example.com). If you have the project hosted somewhere, include the link here. -->
 
 ## Table of Contents
