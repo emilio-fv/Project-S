@@ -48,6 +48,12 @@ export const ticketsSlice = createSlice({
         },
         resetSelected: (state) => {
             state.selected = null
+        },
+        logoutReset: (state) => {
+            state.tickets = []
+            state.error = null
+            state.selected = null
+            state.status = 'idle'
         }
     },
     extraReducers(builder) {
@@ -86,5 +92,5 @@ export const ticketsSlice = createSlice({
     }
 });
 
-export const { reset, selectTicket, resetSelected } = ticketsSlice.actions;
+export const { reset, selectTicket, resetSelected, logoutReset } = ticketsSlice.actions;
 export default ticketsSlice.reducer;

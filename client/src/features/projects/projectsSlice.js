@@ -39,9 +39,14 @@ export const projectsSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
+            state.error = null
+            state.status = 'idle'
+        },
+        logoutReset: (state) => {
+            state.projects = []
             state.status = 'idle'
             state.error = null
-        },
+        }
     },
     extraReducers(builder) {
         builder
@@ -88,5 +93,5 @@ export const projectsSlice = createSlice({
     }
 });
 
-export const { reset } = projectsSlice.actions;
+export const { reset, logoutReset } = projectsSlice.actions;
 export default projectsSlice.reducer;

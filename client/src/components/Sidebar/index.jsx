@@ -7,6 +7,8 @@ import StyledButton from '../Button/index';
 import AvatarImg from '../../imgs/avatar_sample.png';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import { logoutReset as projectsReset } from '../../features/projects/projectsSlice';
+import { logoutReset as ticketsReset } from '../../features/tickets/ticketsSlice';
 
 const Sidebar = (props) => {
     const dispatch = useDispatch();
@@ -15,7 +17,9 @@ const Sidebar = (props) => {
 
     const handleLogout = (event) => {
         dispatch(logout());
-        dispatch(reset());
+        dispatch(reset()); // Reset User
+        dispatch(projectsReset()) // Reset Projects
+        dispatch(ticketsReset()) // Reset Tickets
     }
 
     return (
