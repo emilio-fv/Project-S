@@ -11,8 +11,10 @@ const createComment = async (data) => {
 
     const updatedTicket = await Ticket.findByIdAndUpdate({ _id: ticketId }, { $push: { comments: newComment._id }});
 
+    const populatedComment = await Comment.find({ '_id': newComment._id }).populate('author', ['firstName', 'lastName'])
+
     return {
-        newComment: newComment,
+        newComment: populatedComment[0],
         updatedTicket: updatedTicket
     }
 };

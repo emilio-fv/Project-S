@@ -13,7 +13,6 @@ export const createTicket = createAsyncThunk('tickets/createOne', async (ticketD
     try {
         return await ticketsService.createTicket(ticketData);
     } catch (error) {
-        console.log(error);
         const messages = error.response.data.errors;
         return thunkAPI.rejectWithValue(messages);
     }

@@ -11,6 +11,7 @@ import TablePagination from '@mui/material/TablePagination';
 import Link from '@mui/material/Link';
 import { selectTicket } from '../../features/tickets/ticketsSlice';
 import { useDispatch } from 'react-redux';
+import { getManyComments } from '../../features/comments/commentsSlice';
 
 const tableHeaders = [
   "Id",
@@ -44,6 +45,8 @@ const ProjectTicketsTable = (props) => {
   const handleSelectTicket = (event, ticketId) => {
     // Select Ticket
     dispatch(selectTicket(ticketId));
+    const selectedTicket = tickets.find((ticket) => ticket._id === ticketId)
+    dispatch(getManyComments({ ids: selectedTicket.comments}));
   }
   
   return (
