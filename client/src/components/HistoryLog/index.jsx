@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import sampleHistory from '../../data/historyData';
+
 
 const HistoryLog = (props) => {
+  const [sampleHistory] = useState([]);
+
   return (
     <Box sx={{ height: '150px', display: 'flex', flexDirection: 'column', overflow: 'scroll' }}>
       { sampleHistory.map((item, key) => (

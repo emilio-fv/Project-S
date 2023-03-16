@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { login, loggedInCheck, reset } from '../../features/auth/authSlice';
+import { login, reset, loggedInUserCheck } from '../../features/auth/authSlice';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Link from '@mui/material/Link';
 
 const LoginForm = (props) => {
   // Login Form Data
@@ -22,6 +23,9 @@ const LoginForm = (props) => {
     password: ''
   })
 
+  // Error Messages
+  const [errorMessage, setErrorMessage] = useState(null);
+
   // Helpers
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,10 +33,7 @@ const LoginForm = (props) => {
 
   // Check If User Logged In,  Set Form Error Messages, Navigate to Dashboard, Reset Form 
   useEffect(() => {
-    if (user === null) {
-      dispatch(loggedInCheck())
-    }
-
+    dispatch(loggedInUserCheck())
     if (status === 'failed') {
       setErrorMessage(messages);
     }
@@ -43,10 +44,6 @@ const LoginForm = (props) => {
 
     dispatch(reset());
   }, [user, status, navigate, dispatch])
-
-
-  // Error Messages
-  const [errorMessage, setErrorMessage] = useState(null);
 
   // Password Visibility 
   const [showPassword, setShowPassword] = useState(false);
@@ -86,7 +83,8 @@ const LoginForm = (props) => {
         sx={{ 
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '10px' 
+          gap: '10px',
+          marginBottom: '10px'
         }} 
         onSubmit={event => handleSubmit(event)}
       >
@@ -133,7 +131,7 @@ const LoginForm = (props) => {
         </FormControl>
         <Button variant="contained" type="submit">Login</Button>
       </Box>
-      <Typography>Don't have an account? <Link to='/'>Register here</Link></Typography>
+      <Typography>Don't have an account? <Link component={RouterLink} underline='hover' to='/'>Register here</Link></Typography>
     </Box>
   )
 }

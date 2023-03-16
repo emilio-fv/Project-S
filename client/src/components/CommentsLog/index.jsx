@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import StyledButton from '../Button';
+import StyledButton from '../StyledButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { createComment } from '../../features/comments/commentsSlice';
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { register, loggedInCheck, reset } from '../../features/auth/authSlice';
+import { loggedInUserCheck, register, reset } from '../../features/auth/authSlice';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -14,9 +14,10 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import FormHelperText from '@mui/material/FormHelperText';
+import Link from '@mui/material/Link';
 
 const RegisterForm = (props) => {
-  // Register User Form Data
+  // New User Data
   const [newUserData, setNewUserData] = useState({
     firstName: '',
     lastName: '',
@@ -26,30 +27,28 @@ const RegisterForm = (props) => {
     confirmPassword: ''
   });
 
+  // Form Error Messages
+  const [errorMessages, setErrorMessages] = useState(null);
+
   // Helpers
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, status, messages } = useSelector((state) => state.auth)
 
-  // Check If User Logged In, Set Form Error Messages, Navigate to Dashboard, Reset Form 
+  // Set Form Error Messages, Navigate to Dashboard, Reset Form 
   useEffect(() => {
-    if (user === null) {
-      dispatch(loggedInCheck());
-    }
+    dispatch(loggedInUserCheck());
 
     if (status === 'failed') {
       setErrorMessages(messages);
     }
 
-    if (status === 'succeeded' || user) {
+    if (status === 'succeeded' && user) {
       navigate('/dashboard');
     }
 
     dispatch(reset());
   }, [user, status, navigate, dispatch])
-
-  // Error Messages
-  const [errorMessages, setErrorMessages] = useState({});
 
   // Password Visibility
   const [showPassword, setShowPassword] = useState(false);
@@ -96,22 +95,26 @@ const RegisterForm = (props) => {
         sx={{ 
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '10px' 
+          gap: '10px',
+          marginBottom: '10px'
         }} 
         onSubmit={event => handleRegisterFormSubmit(event)} 
         autoComplete="off"
       >
+        {/* First Name */}
         <TextField 
           id="firstName" 
           label="First Name" 
           variant="outlined" 
           name="firstName" 
           size="small"
+          autoComplete='off'
           value={newUserData.firstName} 
-          error={!errorMessages.firstName ? false : true}
-          helperText={!errorMessages.firstName ? "" : `${errorMessages.firstName.message}`}
+          error={!errorMessages?.firstName ? false : true}
+          helperText={!errorMessages?.firstName ? null : `${errorMessages.firstName.message}`}
           onChange={event => handleRegisterFormChanges(event)}
         />
+        {/* Last Name */}
         <TextField 
           id="lastName" 
           label="Last Name" 
@@ -119,10 +122,11 @@ const RegisterForm = (props) => {
           name="lastName" 
           size="small"
           value={newUserData.lastName} 
-          error={ !errorMessages.lastName ? false : true }
-          helperText={ !errorMessages.lastName ? "" : `${errorMessages.lastName.message}`}
+          error={ !errorMessages?.lastName ? false : true }
+          helperText={ !errorMessages?.lastName ? null : `${errorMessages.lastName.message}`}
           onChange={event => handleRegisterFormChanges(event)}
         />
+        {/* Email */}
         <TextField 
           id="email" 
           label="Email" 
@@ -130,10 +134,11 @@ const RegisterForm = (props) => {
           name="email" 
           size="small"
           value={newUserData.email} 
-          error={!errorMessages.email ? false : true}
-          helperText={!errorMessages.email ? "" : `${errorMessages.email.message}`}
+          error={!errorMessages?.email ? false : true}
+          helperText={!errorMessages?.email ? null : `${errorMessages.email.message}`}
           onChange={event => handleRegisterFormChanges(event)}
         />
+        {/* Phone */}
         <TextField 
           id="phone" 
           label="Phone Number" 
@@ -141,10 +146,11 @@ const RegisterForm = (props) => {
           name="phone" 
           size="small"
           value={newUserData.phone} 
-          error={!errorMessages.phone ? false : true}
-          helperText={!errorMessages.phone ? "" : `${errorMessages.phone.message}`}
+          error={!errorMessages?.phone ? false : true}
+          helperText={!errorMessages?.phone ? null : `${errorMessages.phone.message}`}
           onChange={event => handleRegisterFormChanges(event)}
-          />
+        />
+        {/* Password */}
         <FormControl 
           variant="outlined" 
           fullWidth 
@@ -169,13 +175,14 @@ const RegisterForm = (props) => {
             label="Password"
             name="password"
             value={newUserData.password}
-            error={!errorMessages.password ? false : true}
+            error={!errorMessages?.password ? false : true}
             onChange={event => handleRegisterFormChanges(event)}
           />
-          {!errorMessages.password ? null : 
+          {!errorMessages?.password ? null : 
             <FormHelperText error >{ errorMessages.password.message }</FormHelperText>
           }
         </FormControl>
+        {/* Confirm Password */}
         <FormControl variant="outlined" fullWidth size="small">
           <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
           <OutlinedInput
@@ -195,17 +202,17 @@ const RegisterForm = (props) => {
             }
             label="Confirm Password"
             name="confirmPassword"
-            error={ !errorMessages.confirmPassword ? false : true }
+            error={ !errorMessages?.confirmPassword ? false : true }
             value={newUserData.confirmPassword}
             onChange={event => handleRegisterFormChanges(event)}
           />
-          {!errorMessages.confirmPassword ? null :
+          {!errorMessages?.confirmPassword ? null :
             <FormHelperText error>{ errorMessages.confirmPassword.message }</FormHelperText>
           }
         </FormControl>
         <Button variant="contained" type='submit'>Register</Button>
       </Box> 
-      <Typography>Already register? <Link to='/login'>Login here</Link></Typography>
+      <Typography align='center'>Already register? <Link component={RouterLink} to='/login' underline='hover' sx={{ }}>Login Here</Link></Typography>
     </Box>
   )
 }

@@ -1,13 +1,12 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import StyledButton from '../Button';
+import StyledButton from '../StyledButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { deleteProject } from '../../features/projects/projectsSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loggedInCheck } from '../../features/auth/authSlice';
 
 const MainDisplay = (props) => {
     const { project } = props;
@@ -16,7 +15,6 @@ const MainDisplay = (props) => {
 
     const handleDelete = (event) => {
         dispatch(deleteProject(project._id));
-        dispatch(loggedInCheck());
         navigate('/dashboard');
     };
 

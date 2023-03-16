@@ -99,7 +99,7 @@ const handleLoggedInUserCheck = async (req, res) => {
         const foundUser = await getUserById(decodedJwt.payload.id);
         // If User Not Logged In
         if (foundUser === null) {
-            return res.status(400).json({ error: "Not logged in."});
+            return res.status(400);
         }
         // If User Logged In
         return res.json({

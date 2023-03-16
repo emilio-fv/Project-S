@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, reset } from '../../features/auth/authSlice';
+import { logout, logoutReset } from '../../features/auth/authSlice';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import StyledButton from '../Button/index';
-import AvatarImg from '../../imgs/avatar_sample.png';
+import StyledButton from '../StyledButton/index';
+import AvatarImg from '../../imgs/avatar.png';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { logoutReset as projectsReset } from '../../features/projects/projectsSlice';
@@ -17,7 +17,7 @@ const Sidebar = (props) => {
 
     const handleLogout = (event) => {
         dispatch(logout());
-        dispatch(reset()); // Reset User
+        dispatch(logoutReset()); // Reset User
         dispatch(projectsReset()) // Reset Projects
         dispatch(ticketsReset()) // Reset Tickets
     }
@@ -32,8 +32,9 @@ const Sidebar = (props) => {
                             height: 120,
                             width: 120,
                             borderRadius: '50%',
-                            boxShadow: '0px 0px 25px white',
+                            boxShadow: '0px 0px 10px grey',
                             marginBottom: '25px'
+                            
                         }}
                         alt="Avatar icon"
                         src={ AvatarImg }

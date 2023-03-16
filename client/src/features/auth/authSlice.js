@@ -4,13 +4,8 @@ import authService from './authService';
 const initialState = {
     user: null,
     status: 'idle',
-    messages: {}
+    messages: null
 }
-
-// Logged In User Check
-export const loggedInCheck = createAsyncThunk('auth/loggedInCheck', async () => {
-    return await authService.loggedInCheck();
-})
 
 // Register User
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
@@ -20,7 +15,7 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
         const messages = error.response.data.errors;
         return thunkAPI.rejectWithValue(messages);
     }
-})
+});
 
 // Login User
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
@@ -28,15 +23,23 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
         return await authService.login(user)
     } catch (error) {
         const messages = error.response.data.error;
-        console.log(messages);
         return thunkAPI.rejectWithValue(messages);
+    }
+});
+
+// Logged In User Check 
+export const loggedInUserCheck = createAsyncThunk('auth/loggedInUserCheck', async() => {
+    try {
+        return await authService.loggedInUserCheck();
+    } catch (error) {
+        return ;
     }
 })
 
 // Logout User
 export const logout = createAsyncThunk('auth/logout', async () => {
-    await authService.logout();
-})
+    return await authService.logout();
+});
 
 // Auth Slice
 export const authSlice = createSlice({
@@ -44,7 +47,12 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.messages = {}
+            state.messages = null
+        },
+        logoutReset: (state) => {
+            state.user = null
+            state.status = 'idle'
+            state.messages = null
         }
     },
     extraReducers: (builder) => {
@@ -58,31 +66,32 @@ export const authSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'failed'
-                state.messages = action.payload;
-                state.user = null;
+                state.messages = action.payload
+                state.user = null
             })
             .addCase(login.pending, (state) => {
                 state.status = 'loading'
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.status = 'succeeded'
-                state.user = action.payload;
+                state.user = action.payload
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'failed'
-                state.messages = action.payload;
-                state.user = null;
+                state.messages = action.payload
+                state.user = null
             })
             .addCase(logout.fulfilled, (state) => {
-                state.user = null;
-                state.status = 'idle';
+                state.user = null
+                state.status = 'idle'
             })
-            .addCase(loggedInCheck.fulfilled, (state, action) => {
-                state.user = action.payload;
+            .addCase(loggedInUserCheck.fulfilled, (state, action) => {
+                state.user = action.payload
+                state.status = 'succeeded' 
             })
     }
-})
+});
 
-export const { reset } = authSlice.actions;
+export const { reset, logoutReset } = authSlice.actions;
 
 export default authSlice.reducer;
