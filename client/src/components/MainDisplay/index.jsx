@@ -21,7 +21,7 @@ const MainDisplay = (props) => {
     return (
         <Box sx={{ maxHeight: '60%', flex: 3, padding: '25px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
                     <Typography variant='h5' component="h2">{ props.displayTitle }</Typography>
                     { props.icons === 'projectManager'
                         ? <IconButton aria-label="delete project" onClick={handleDelete}>

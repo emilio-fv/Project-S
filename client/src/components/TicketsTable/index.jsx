@@ -16,6 +16,7 @@ import { getManyComments } from '../../features/comments/commentsSlice';
 
 const tableHeaders = [
     "Ticket #",
+    'Project',
     "Summary",
     "Type",
     "Priority",
@@ -74,7 +75,13 @@ const TicketsTable = (props) => {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    {row.summary}
+                    {row.project.name}
+                  </TableCell>
+                  <TableCell>
+                    {row.summary.length > 40 
+                      ? row.summary.substring(0,30) + '...'
+                      : row.summary
+                    }
                   </TableCell>
                   <TableCell>
                     {row.ticketType}
@@ -86,7 +93,7 @@ const TicketsTable = (props) => {
                     {row.status}
                   </TableCell>
                   <TableCell>
-                    {row.dueDate}
+                    {new Date(row.dueDate).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})}
                   </TableCell>
                 </TableRow>
               ))}

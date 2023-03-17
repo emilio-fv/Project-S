@@ -76,7 +76,10 @@ const ProjectTicketsTable = (props) => {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    {row.summary}
+                    {row.summary.length > 10 
+                      ? row.summary.substring(0,12) + '...'
+                      : row.summary
+                    }
                   </TableCell>
                   <TableCell>
                     {row.status}
@@ -91,7 +94,7 @@ const ProjectTicketsTable = (props) => {
                     {row.assignedUser.firstName} {row.assignedUser.lastName}
                   </TableCell>
                   <TableCell>
-                    {row.dueDate}
+                    {new Date(row.dueDate).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})}
                   </TableCell>
                 </TableRow>
               ))}

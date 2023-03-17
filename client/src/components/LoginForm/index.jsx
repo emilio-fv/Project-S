@@ -31,14 +31,18 @@ const LoginForm = (props) => {
   const dispatch = useDispatch();
   const { user, status, messages } = useSelector((state) => state.auth)
 
-  // Check If User Logged In,  Set Form Error Messages, Navigate to Dashboard, Reset Form 
+  // Check If User Logged In 
   useEffect(() => {
     dispatch(loggedInUserCheck())
+  }, [])
+
+  //  Set Form Error Messages, Navigate to Dashboard, Reset Form 
+  useEffect(() => {
     if (status === 'failed') {
       setErrorMessage(messages);
     }
 
-    if (status === 'succeeded' || user) {
+    if (status === 'succeeded' && user) {
       navigate('/dashboard');
     }
 

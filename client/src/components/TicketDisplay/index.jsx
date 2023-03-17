@@ -231,7 +231,7 @@ const TicketDisplay = (props) => {
                                 <Box sx={{ flex: 1 }}>
                                     <Typography>Status: {selectedTicket.status}</Typography>
                                     <Typography>Priority: {selectedTicket.priority}</Typography>
-                                    <Typography>Due: {selectedTicket.dueDate}</Typography>
+                                    <Typography>Due: {new Date(selectedTicket.dueDate).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})}</Typography>
                                 </Box>
                             </Box>
                         </Box>

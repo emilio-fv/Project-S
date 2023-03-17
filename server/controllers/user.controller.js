@@ -95,12 +95,15 @@ const handleLoggedInUserCheck = async (req, res) => {
     try {
         // Decode Access Token
         const decodedJwt = jwt.decode(req.cookies.userToken, { complete: true });
+
+        // If User Not Logged In
+        if (decodedJwt === null) {
+            return res.json(null);
+        }
+
         // Get User By Id
         const foundUser = await getUserById(decodedJwt.payload.id);
-        // If User Not Logged In
-        if (foundUser === null) {
-            return res.status(400);
-        }
+
         // If User Logged In
         return res.json({
             _id: foundUser._id,

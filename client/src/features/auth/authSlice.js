@@ -29,11 +29,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
 
 // Logged In User Check 
 export const loggedInUserCheck = createAsyncThunk('auth/loggedInUserCheck', async() => {
-    try {
-        return await authService.loggedInUserCheck();
-    } catch (error) {
-        return ;
-    }
+    return authService.loggedInUserCheck();
 })
 
 // Logout User
