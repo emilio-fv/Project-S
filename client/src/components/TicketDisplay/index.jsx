@@ -89,6 +89,7 @@ const TicketDisplay = (props) => {
     const handleSaveTicket = (event) => {
         event.preventDefault();
         dispatch(updateTicket(updatedTicket));
+        dispatch()
         setEdit(false);
     };
 
