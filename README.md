@@ -42,7 +42,8 @@
 - View & Update Personnel Info (Admin Only)
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Login Page](./img/Login.png)
+![Register Page](./img/Register.png)
 <!-- If you have screenshots you'd like to share, include them here. -->
 
 <!-- 
