@@ -14,25 +14,32 @@
 
 
 ## General Information
-- This project makes up a part of my current portoflio and was inspired by an interest in learning about the tools (ex. Jira) used by software developer teams to collaborate on large scale projects.
+- This project makes up a part of my current portfolio and was inspired by an interest in learning about the tools (ex. Jira) used by software developer teams to collaborate on large scale projects.
 
 
 ## Technologies Used
 - React
-- Redux
 - Material UI
+- Day.js
 - Chart.js
-- Express.js
+- Redux
 - Axios
+- React-router-dom
+- Express
 - JWT
-- Node.js
+- Bcrypt
+- Cors
+- Cookie-parser
+- Node
+- Mongoose
 - MongoDB
 
 
 ## Features
-- Register / Login User
+- Register & Login User
 - Create & Delete Projects
 - Create Tickets (Feature, Bug, Improvement, Task, Test)
+- View & Update Personnel Info (Admin Only)
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
@@ -59,10 +66,7 @@ Project is: _in progress_
 ## Room for Improvement
 To do:
 - Edit Project
-- Edit Tickets
-- View All Tickets
-- Admin View
-- Edit Personnel
+- Bugfix: saving edits for a ticket while in project view won't automatically re-render with updated ticket info 
 
 
 ## Contact
