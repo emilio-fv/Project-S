@@ -14,16 +14,17 @@
 
 
 ## General Information
-- This project is a part of my personal portfolio of projects to display my work as a software developer and was inspired by an interest to learn how software developer teams collaborate on large scale projects. 
+- This project makes up a part of my current portoflio and was inspired by an interest in learning about the tools (ex. Jira) used by software developer teams to collaborate on large scale projects.
 
 
 ## Technologies Used
 - React
-- Redux, React-Redux, Redux Toolkit
+- Redux
+- Material UI
+- Chart.js
+- Express.js
 - Axios
 - JWT
-- Material UI, Chart.js
-- Express.js
 - Node.js
 - MongoDB
 
