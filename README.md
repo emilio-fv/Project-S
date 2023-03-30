@@ -9,12 +9,12 @@
 * [Screenshots](#screenshots)
 * [Project Status](#project-status)
 * [Room for Improvement](#room-for-improvement)
+* [Feedback](#feedback)
 * [Contact](#contact)
-<!-- * [License](#license) -->
 
 
 ## General Information
-- This project makes up a part of my current portfolio and was inspired by an interest in learning about the tools (ex. Jira) used by software developer teams to collaborate on large scale projects.
+- This project makes up a part of my current portfolio and was inspired by an interest in learning about the tools and processes used by software developer teams to collaborate on large scale projects.
 
 
 ## Technologies Used
@@ -44,21 +44,12 @@
 ## Screenshots
 ![Login Page](./img/Login.png)
 ![Register Page](./img/Register.png)
-<!-- If you have screenshots you'd like to share, include them here. -->
-
-<!-- 
-## Setup
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
-
-Proceed to describe how to install / setup one's local environment / get started with the project.
-
-
-## Usage 
-How does one go about using it?
-Provide various use cases and code examples here.
-
-`write-your-code-here`
--->
+![Dashboard](./img/Dashboard.png)
+![Project View](./img/Project-View.png)
+![Create Project](./img/Add_Project.png)
+![Tickets View](./img/Tickets_View.png)
+![Create Ticket](./img/Add_Ticket.png)
+![Admin View](./img/Admin_View.png)
 
 ## Project Status
 Project is: _in progress_ 
@@ -69,6 +60,8 @@ To do:
 - Edit Project
 - Bugfix: saving edits for a ticket while in project view won't automatically re-render with updated ticket info 
 
+## Feedback
+I am always happy to get feedback so if you have a moment I'd greatly appreciate you filling out a [feedback form](https://forms.gle/KUfVf1iN5LNbMwfw7)! Thanks!
 
 ## Contact
 Created by [@emilio-fv](https://github.com/emilio-fv) - feel free to contact me!
