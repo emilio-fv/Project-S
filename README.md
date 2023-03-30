@@ -61,7 +61,7 @@ To do:
 - Bugfix: saving edits for a ticket while in project view won't automatically re-render with updated ticket info 
 
 ## Feedback
-I am always happy to get feedback so if you have a moment I'd greatly appreciate you filling out a [feedback form](https://forms.gle/KUfVf1iN5LNbMwfw7)! Thanks!
+I am always happy to get feedback so if you have a moment I'd greatly appreciate you filling out a <a href="https://forms.gle/KUfVf1iN5LNbMwfw7" target='_blank'>feedback form</a>! Thanks!
 
 ## Contact
 Created by [@emilio-fv](https://github.com/emilio-fv) - feel free to contact me!
