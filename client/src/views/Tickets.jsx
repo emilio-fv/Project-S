@@ -18,7 +18,6 @@ const Tickets = (props) => {
     dispatch(resetSelected());
   }, [])
 
-  // TODO: Load tickets
   return (
     <Box sx={{ width: '100%',  height: '100vh', maxHeight: '100vh', display: 'flex' }}>
       <Sidebar />

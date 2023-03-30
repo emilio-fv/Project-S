@@ -9,7 +9,7 @@ import TableBody from '@mui/material/TableBody';
 import TablePagination from '@mui/material/TablePagination';
 import TablePaginationActions from '../TablePaginationActions';
 import Typography from '@mui/material/Typography';
-import StyledButton from '../Button';
+import StyledButton from '../StyledButton';
 import Link from '@mui/material/Link';
 import { useDispatch, useSelector } from 'react-redux';
 import FormControl from '@mui/material/FormControl';

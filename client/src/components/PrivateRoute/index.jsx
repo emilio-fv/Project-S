@@ -1,17 +1,24 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, Navigate } from 'react-router-dom';
-import { store } from '../../store';
 import { fetchAllPersonnel } from '../../features/personnel/personnelSlice';
+import { loggedInUserCheck } from '../../features/auth/authSlice';
 
 const PrivateRoute = ({children, ...rest}) => {
   const { user } = useSelector((state) => state.auth);
-  
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (user) {
-      store.dispatch(fetchAllPersonnel());
+    // Logged In User Check
+    if (!user) {
+      dispatch(loggedInUserCheck());
     }
-  })
+
+    // Fetch Personnel If Logged In
+    if (user) {
+      dispatch(fetchAllPersonnel());
+    }
+  }, [user, dispatch])
 
   return (
     user ? <Outlet /> : <Navigate to='/login' />

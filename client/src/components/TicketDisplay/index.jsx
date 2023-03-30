@@ -6,10 +6,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TabPanel from '../TabPanel';
 import CommentsLog from '../CommentsLog';
-import HistoryLog from '../HistoryLog';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import StyledButton from '../Button';
+import StyledButton from '../StyledButton';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -90,6 +89,7 @@ const TicketDisplay = (props) => {
     const handleSaveTicket = (event) => {
         event.preventDefault();
         dispatch(updateTicket(updatedTicket));
+        dispatch()
         setEdit(false);
     };
 
@@ -232,7 +232,7 @@ const TicketDisplay = (props) => {
                                 <Box sx={{ flex: 1 }}>
                                     <Typography>Status: {selectedTicket.status}</Typography>
                                     <Typography>Priority: {selectedTicket.priority}</Typography>
-                                    <Typography>Due: {selectedTicket.dueDate}</Typography>
+                                    <Typography>Due: {new Date(selectedTicket.dueDate).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})}</Typography>
                                 </Box>
                             </Box>
                         </Box>

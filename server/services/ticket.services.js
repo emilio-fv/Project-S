@@ -16,8 +16,12 @@ const createTicket = async (data) => {
 
     const updatedUser = await User.findByIdAndUpdate({ _id: userId }, { $push: { tickets: newTicket._id }});
 
+    const populatedTicket = await Ticket.find({ '_id': newTicket._id })
+        .populate('project', ['name'])
+        .populate('assignedUser', ['firstName', 'lastName']);
+
     return { 
-        newTicket: newTicket,
+        newTicket: populatedTicket[0],
         updatedProject: updatedProject,
         updatedUser: updatedUser
     };
