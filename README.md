@@ -2,6 +2,7 @@
 > A MERN-based project management and bug tracking web application designed for software developer teams.
 <!-- > Live demo [_here_](https://www.example.com). If you have the project hosted somewhere, include the link here. -->
 
+
 ## Table of Contents
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
@@ -51,6 +52,7 @@
 ![Create Ticket](./img/Add_Ticket.png)
 ![Admin View](./img/Admin_View.png)
 
+
 ## Project Status
 Project is: _in progress_ 
 
@@ -65,3 +67,4 @@ I am always happy to get feedback so if you have a moment I'd greatly appreciate
 
 ## Contact
 Created by [@emilio-fv](https://github.com/emilio-fv) - feel free to contact me!
+
