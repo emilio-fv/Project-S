@@ -19,21 +19,9 @@
 
 
 ## Technologies Used
-- React
-- Material UI
-- Day.js
-- Chart.js
-- Redux
-- Axios
-- React-router-dom
-- Express
-- JWT
-- Bcrypt
-- Cors
-- Cookie-parser
-- Node
-- Mongoose
-- MongoDB
+- Frontend: React, Material UI, Day.js, Chart.js, Redux
+- Backend: Mongoose, Express, Node
+- Database: MongoDB
 
 
 ## Features
